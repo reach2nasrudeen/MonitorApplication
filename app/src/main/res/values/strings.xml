@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MonitorApplication</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_phone">Phone Number</string>
+    <string name="btn_proceed">Proceed</string>
+    <string name="loading">Loading</string>
+</resources>

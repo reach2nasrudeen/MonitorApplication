@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Default App colors-->
+    <color name="colorPrimary">@color/action</color>
+    <color name="colorPrimaryDark">@color/action</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorError">#FD5A52</color>
+    <!--==========================-->
+
+    <!--Other colors used-->
+    <color name="background">#303640</color>
+    <color name="fonts">#eceff1</color>
+    <color name="inactive_field">#5a5d65</color>
+    <color name="dark_background">#2b3039</color>
+    <color name="actions">#71c6d2</color>
+    <color name="Blue">#354953</color>
+    <color name="aquaBlue">#66BFCC</color>
+    <color name="aqua">#98b6ba</color>
+    <color name="red">#f73b5a</color>
+    <color name="bodyBgGrey">#F5F5F5</color>
+    <!--==========================-->
+
+    <color name="alert_color_orange_transparent">#B3F3A020</color>
+    <color name="action">#313F42</color>
+    <color name="action_semi_transperent">#B3313F42</color>
+    <color name="main_background">#E4E2D4</color>
+    <color name="top_background">#FFFFFF</color>
+    <color name="transparent_white_30">#66FFFFFF</color>
+    <color name="transparent_white_50">#80FFFFFF</color>
+    <color name="transparent_white_80">#CCFFFFFF</color>
+
+    <color name="transparent_black_30">#66000000</color>
+    <color name="transparent_black_50">#80000000</color>
+    <color name="transparent_black_80">#CC000000</color>
+    <color name="alert_color_green">#01C548</color>
+    <color name="alert_color_red">#F22048</color>
+    <color name="alert_color_orange">#F3A020</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="gainsboro">#DCDCDC</color>
+    <color name="grey100">#F5F5F5</color>
+    <color name="orange">#ff671f</color>
+    <color name="pink">#db3eb1</color>
+    <color name="blue">#005eb8</color>
+    <color name="dark_grey">#313f42</color>
+    <color name="hrzone_blue">#1D95DF</color>
+    <color name="hrzone_green">#00CB5A</color>
+    <color name="hrzone_yellow">#FCEF00</color>
+    <color name="hrzone_orange">#FC971E</color>
+    <color name="halfwhite">#80FFFFFF</color>
+    <color name="hrzone_red">#C32527</color>
+    <color name="bgOrange">#ff671f</color>
+    <color name="bgPink">#db3eb1</color>
+    <color name="bgBlue">#005eb8</color>
+    <color name="bgGrey">#343F42</color>
+    <color name="bgLightGrey">#d0d3d4</color>
+
+    <color name="textActive">#526265</color>
+    <color name="textInActive">#9da1a2</color>
+
+    // Title Page Indicator colors
+    <dimen name="default_title_indicator_clip_padding">4dp</dimen>
+    <color name="default_title_indicator_footer_color">#FF33B5E5</color>
+    <dimen name="default_title_indicator_footer_line_height">2dp</dimen>
+    <integer name="default_title_indicator_footer_indicator_style">2</integer>
+    <dimen name="default_title_indicator_footer_indicator_height">4dp</dimen>
+    <dimen name="default_title_indicator_footer_indicator_underline_padding">20dp</dimen>
+    <dimen name="default_title_indicator_footer_padding">7dp</dimen>
+    <integer name="default_title_indicator_line_position">0</integer>
+    <color name="default_title_indicator_selected_color">@color/action</color>
+    <bool name="default_title_indicator_selected_bold">true</bool>
+    <color name="default_title_indicator_text_color">@color/textInActive</color>
+    <dimen name="default_title_indicator_text_size">14sp</dimen>
+    <dimen name="default_title_indicator_title_padding">5dp</dimen>
+    <dimen name="default_title_indicator_top_padding">7dp</dimen>
+
+    // Download Routes
+    <color name="app_light_grey">#d0d3d4</color>
+    <color name="app_text_light_grey">#9da1a2</color>
+    <color name="mdtp_white">#FFFFFF</color>
+
+    //HomeScreen
+    <dimen name="tap_and_hold_menu">11sp</dimen>
+
+</resources>
