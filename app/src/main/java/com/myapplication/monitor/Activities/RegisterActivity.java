@@ -111,11 +111,13 @@ public class RegisterActivity extends BaseActivity implements RegisterViewDelega
 
     @Override
     public void onRegisterSuccess() {
+        sessionManager.setUserLoginStatus(true);
+
         Place place = registerViewModel.getPlace();
         sessionManager.setPlaceName(place.getName());
         sessionManager.setPlaceAddress(place.getAddress());
         sessionManager.setPlaceLat(String.valueOf(place.getLatitude()));
-        sessionManager.setPlaceLat(String.valueOf(place.getLongitude()));
+        sessionManager.setPlaceLong(String.valueOf(place.getLongitude()));
         sessionManager.setPlacePhone(place.getPhone());
         sessionManager.setPlaceRadius(String.valueOf(place.getRadius()));
         initActivity(new Intent(mContext,HomeActivity.class));
