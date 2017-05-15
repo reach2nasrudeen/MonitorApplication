@@ -10,12 +10,13 @@ public class WebServiceURL {
     public static String SERVICE_PATH;
 
     public WebServiceURL() {
-        BASE_URL = "http://192.168.1.2/";
+        BASE_URL = "http://192.168.1.3/";
         SERVICE_PATH = "Monitor/v1/";
     }
 
     // Endpoints
     public static final String USER_REGISTER = "createUser";
     public static final String GET_ALL_USER = "users";
+    public static final String GET_PLACE = "place";
 
 }

@@ -3,9 +3,17 @@ package com.myapplication.monitor.DataManager;
 import android.util.Log;
 
 import com.myapplication.monitor.DataManager.callbacks.DataResponse;
+import com.myapplication.monitor.Model.Place;
+import com.myapplication.monitor.Model.UserResponse;
 import com.myapplication.monitor.Rest.MonitorApiInterface;
 import com.myapplication.monitor.Rest.RetrofitCallback;
 import com.myapplication.monitor.Utils.AppConstants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -32,7 +40,7 @@ public class RegisterDataManager implements AppConstants {
             String phone,
             String deviceId,
             String deviceBrand,
-            String deviceModel, final DataResponse<String> dataResponse) {
+            String deviceModel, final DataResponse<Place> dataResponse) {
 
         Call<ResponseBody> timeLogResponseCall = service.registerUser(name,
                 phone,
@@ -45,8 +53,24 @@ public class RegisterDataManager implements AppConstants {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int statusCode = response.code();
 
-                if (statusCode == 200) {
-                    dataResponse.onSuccess("Register success");
+                if(statusCode == 200) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+
+                        JSONArray jsonArray = jsonObject.getJSONArray("place");
+                        JSONObject placeObject = jsonArray.getJSONObject(0);
+                        Place place = new Place();
+                        place.setId(Integer.parseInt(placeObject.getString("id")));
+                        place.setAddress(placeObject.getString("address"));
+                        place.setPhone(placeObject.getString("phone"));
+                        place.setLatitude(Double.parseDouble(placeObject.getString("latitude")));
+                        place.setLongitude(Double.parseDouble(placeObject.getString("longitude")));
+                        place.setRadius(Integer.parseInt(placeObject.getString("radius")));
+                        Log.e("Status","Register Success");
+                        dataResponse.onSuccess(place,"Register Success");
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     dataResponse.onFailure(ERROR_STATUS, String.valueOf(statusCode));
                 }

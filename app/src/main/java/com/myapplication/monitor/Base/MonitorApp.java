@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.myapplication.monitor.Rest.MonitorApiClient;
 import com.myapplication.monitor.Rest.MonitorApiInterface;
-
+import com.myapplication.monitor.Utils.SessionManager;
 /**
  * Created by Mohamed on 05/14/2017.
  */
@@ -15,6 +15,7 @@ public class MonitorApp extends Application {
 
     protected static MonitorApp mInstance;
 
+    private SessionManager mSharedPreferences;
     private MonitorApiClient mMonitorApiClient;
     @Override
     public void onCreate() {
@@ -22,6 +23,7 @@ public class MonitorApp extends Application {
         mInstance = this;
         mContext = getApplicationContext();
         mMonitorApiClient = new MonitorApiClient();
+        mSharedPreferences = new SessionManager(this);
     }
 
     public static MonitorApp getApp() {
@@ -36,6 +38,10 @@ public class MonitorApp extends Application {
 
     public static synchronized Context getContext(){
         return mContext;
+    }
+
+    public SessionManager getUserPreference() {
+        return mSharedPreferences;
     }
 
     public MonitorApiInterface getRetrofitInterface() {

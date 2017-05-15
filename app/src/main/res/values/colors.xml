@@ -83,4 +83,6 @@
     //HomeScreen
     <dimen name="tap_and_hold_menu">11sp</dimen>
 
+    <color name="black_overlay">#66000000</color>
+
 </resources>

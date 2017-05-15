@@ -1,6 +1,7 @@
 package com.myapplication.monitor.Rest;
 
 import com.myapplication.monitor.Base.WebServiceURL;
+import com.myapplication.monitor.Model.UserResponse;
 import com.myapplication.monitor.Utils.AppConstants;
 
 import okhttp3.RequestBody;
