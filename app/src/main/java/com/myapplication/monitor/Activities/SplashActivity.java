@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.myapplication.monitor.Base.BaseActivity;
 import com.myapplication.monitor.R;
 import com.myapplication.monitor.Utils.SessionManager;
+import com.myapplication.monitor.Utils.Utils;
 
 public class SplashActivity extends BaseActivity {
     private SessionManager sessionManager;
@@ -19,7 +21,8 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         mContext = this;
         sessionManager = getApp().getUserPreference();
-        new Handler().postDelayed(new Runnable() {
+        registerFCM();
+        /*new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (sessionManager.getUserLoginStatus()) {
@@ -28,7 +31,27 @@ public class SplashActivity extends BaseActivity {
                     initActivity(new Intent(mContext, RegisterActivity.class));
                 }
             }
-        }, 3 * 1000); // wait for 3 seconds
+        }, 3 * 1000); // wait for 3 seconds*/
+    }
+
+    public void registerFCM(){
+        boolean InternetStatus = Utils.isInternetConnected(this);
+        if(InternetStatus){
+            FirebaseInstanceId.getInstance().getToken();
+        }
+        else{
+            new Handler().postDelayed(new Runnable() {
+                // Using handler with postDelayed called runnable run method
+                @Override
+                public void run() {
+                    if (sessionManager.getUserLoginStatus()) {
+                        initActivity(new Intent(mContext, HomeActivity.class));
+                    } else {
+                        initActivity(new Intent(mContext, RegisterActivity.class));
+                    }
+                }
+            }, 2*1000); // wait for 2 seconds
+        }
     }
 
     private void initActivity(Intent intent) {

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "944572244010",
+    "firebase_url": "https://monitorapp-41cf3.firebaseio.com",
+    "project_id": "monitorapp-41cf3",
+    "storage_bucket": "monitorapp-41cf3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944572244010:android:a5d1e993b1370ef8",
+        "android_client_info": {
+          "package_name": "com.myapplication.monitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944572244010-3m7rkpk48c59is3jhvabukbpaqlbeimu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvU3lfpvHJcn71z_-SRf_xWT4_17Qfb8A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
