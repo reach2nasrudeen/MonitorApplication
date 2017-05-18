@@ -16,6 +16,7 @@ import android.util.Log;
 import com.google.firebase.messaging.RemoteMessage;
 import com.myapplication.monitor.Activities.MainActivity;
 import com.myapplication.monitor.R;
+import com.myapplication.monitor.Utils.SessionManager;
 
 import java.util.List;
 
@@ -23,11 +24,17 @@ import static com.myapplication.monitor.Base.MonitorApp.getApp;
 import static com.myapplication.monitor.Base.MonitorApp.mContext;
 
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService{
-
+    SessionManager sessionManager;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
+        sessionManager = getApp().getUserPreference();
         Log.i("Notification Type --->",remoteMessage.getData().toString());
+        sessionManager.setPlaceLat(remoteMessage.getData().get("latitude"));
+        sessionManager.setPlaceLong(remoteMessage.getData().get("longitude"));
+        sessionManager.setPlaceRadius(remoteMessage.getData().get("radius"));
+        sessionManager.setPlacePhone(remoteMessage.getData().get("phone"));
+        sessionManager.setPlaceAddress(remoteMessage.getData().get("address"));
+        sessionManager.setPlaceName(remoteMessage.getData().get("name"));
         showNotification(remoteMessage.getData().toString());
     }
     public static boolean isAppIsInBackground(Context context) {
