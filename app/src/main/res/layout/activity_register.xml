@@ -4,14 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.myapplication.monitor.Activities.RegisterActivity">
 
+    <LinearLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="@color/aquaBlue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Monitoring Application System"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:textColor="@color/action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:text="Registration / Login"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/textLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/titleLayout"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <EditText
@@ -42,13 +71,13 @@
         android:gravity="center">
 
         <Button
-            android:layout_margin="15dp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/round_rect_button"
             android:id="@+id/btnProceed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_proceed" />
+            android:layout_margin="15dp"
+            android:background="@drawable/round_rect_button"
+            android:text="@string/btn_proceed"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 

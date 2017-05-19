@@ -124,7 +124,7 @@ public class RegisterActivity extends BaseActivity implements RegisterViewDelega
         sessionManager.setPlaceRadius(String.valueOf(place.getRadius()));
 
         initActivity(new Intent(mContext,MapsActivity.class));
-        Toast.makeText(mContext, "Register Success", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, "Register Success", Toast.LENGTH_SHORT).show();
     }
 
     private void initActivity(Intent intent) {

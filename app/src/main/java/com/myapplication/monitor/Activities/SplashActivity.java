@@ -48,9 +48,9 @@ public class SplashActivity extends BaseActivity {
                 public void run() {
 //                    initActivity(new Intent(mContext, MapsActivity.class));
                     if (sessionManager.getUserLoginStatus()) {
-                        initActivity(new Intent(mContext, MapsActivity.class));
+                        initActivity(new Intent(mContext, MapsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     } else {
-                        initActivity(new Intent(mContext, RegisterActivity.class));
+                        initActivity(new Intent(mContext, RegisterActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     }
                 }
             }, 2*1000); // wait for 2 seconds

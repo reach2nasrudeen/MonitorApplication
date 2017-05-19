@@ -168,6 +168,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btnLogout:
                 sessionManager.setUserLoginStatus(false);
                 Intent intent = new Intent(this, RegisterActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 goHome(intent);
                 break;
         }
@@ -178,6 +179,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         int i = item.getItemId();
         if (i == android.R.id.home) {
             Intent intent = new Intent(this, MapsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             goHome(intent);
             return true;
         }
@@ -186,9 +188,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         goHome(intent);
     }
     private void goHome(Intent intent){
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
         overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right );

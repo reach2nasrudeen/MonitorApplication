@@ -80,7 +80,7 @@ public class HomeActivity extends BaseActivity {
         goHome();
     }
     private void goHome(){
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, MapsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
         overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right );

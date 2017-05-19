@@ -1,10 +1,12 @@
 package com.myapplication.monitor.Activities;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -105,5 +107,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
         mMap.setMapType(getMapType());
+    }
+
+    private Boolean exit = false;
+
+    @Override
+    public void onBackPressed() {
+        checkExit();
+    }
+
+
+    public void checkExit() {
+        if (exit) {
+            finish(); // finish activity
+        } else {
+            Toast.makeText(this, getString(R.string.press_again_to_exit),
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+        }
     }
 }
