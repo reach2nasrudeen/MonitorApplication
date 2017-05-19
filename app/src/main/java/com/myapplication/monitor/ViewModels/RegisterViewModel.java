@@ -31,7 +31,8 @@ public class RegisterViewModel extends RegisterBaseViewModel implements Register
     @Override
     public void onRegister() {
 
-        if (isValid()) {
+        registerViewDelegate.onRegisterSuccess();
+        /*if (isValid()) {
             registerViewDelegate.showProgressView(true);
             registerDataManager.doRegister(getUserName(),
                     getUserPhone(),
@@ -62,20 +63,9 @@ public class RegisterViewModel extends RegisterBaseViewModel implements Register
                             registerViewDelegate.showErrorMessage(errorMessage, MessageViewType.Toast);
                         }
                     });
-        }
+        }*/
 
     }
-
-    private RequestBody prepareRequestBody() {
-        return new FormBody.Builder()
-                .add(AppConstants.PARAM_USERNAME, getUserName())
-                .add(AppConstants.PARAM_USER_PHONE, getUserPhone())
-                .add(AppConstants.PARAM_DEVICE_ID, getDeviceId())
-                .add(AppConstants.PARAM_DEVICE_BRAND, getDeviceBrand())
-                .add(AppConstants.PARAM_DEVICE_MODEL, getDeviceModel())
-                .build();
-    }
-
 
     private boolean isValid() {
         boolean isValid = true;

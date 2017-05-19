@@ -42,12 +42,12 @@ public class SplashActivity extends BaseActivity {
                 // Using handler with postDelayed called runnable run method
                 @Override
                 public void run() {
-                    initActivity(new Intent(mContext, MapsActivity.class));
-                    /*if (sessionManager.getUserLoginStatus()) {
+//                    initActivity(new Intent(mContext, MapsActivity.class));
+                    if (sessionManager.getUserLoginStatus()) {
                         initActivity(new Intent(mContext, HomeActivity.class));
                     } else {
                         initActivity(new Intent(mContext, RegisterActivity.class));
-                    }*/
+                    }
                 }
             }, 2*1000); // wait for 2 seconds
         }
@@ -57,11 +57,11 @@ public class SplashActivity extends BaseActivity {
                 @Override
                 public void run() {
                     initActivity(new Intent(mContext, MapsActivity.class));
-                    /*if (sessionManager.getUserLoginStatus()) {
+                    if (sessionManager.getUserLoginStatus()) {
                         initActivity(new Intent(mContext, HomeActivity.class));
                     } else {
                         initActivity(new Intent(mContext, RegisterActivity.class));
-                    }*/
+                    }
                 }
             }, 2*1000); // wait for 2 seconds
         }

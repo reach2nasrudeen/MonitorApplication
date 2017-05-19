@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.myapplication.monitor.Activities.MainActivity;
 import com.myapplication.monitor.R;
 import com.myapplication.monitor.Utils.SessionManager;
+import com.myapplication.monitor.Utils.Utils;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,8 +41,11 @@ public class LocationHandlers {
             switch (msg.what) {
                 case 0:
                     if (LocationUpdates.connectGoogleApi()) {
+                        if (sessionManager.getUserLoginStatus()) {
+                            LocationUpdates.startLocationUpdates();
+                        }
 //                        if(arrayList.size()!=0){
-                        LocationUpdates.startLocationUpdates();
+
 //                        }if(arrayList.size() == 0){
 //                            LocationUpdates.stopLocationUpdates();
 //                        }
@@ -82,21 +86,24 @@ public class LocationHandlers {
 
 //                    showNotification(String.format("You reached %f %s %s %s %s",latitude,address,city,state,knownName));
 
-                    Integer resultDistance;
+                    double resultDistance;
                     LatLng targetLocation;
                     Double mLat = Double.valueOf(sessionManager.getPlacelat());
                     Double mLong = Double.valueOf(sessionManager.getPlaceLong());
-                    int alertKM = Integer.parseInt(sessionManager.getPlaceRadius());
+                    double alertKM = Double.parseDouble(sessionManager.getPlaceRadius());
 
                     targetLocation = new LatLng(mLat, mLong);
-                    resultDistance = Integer.parseInt(
-                            LocationUpdates.roundOffKM(
-                                    String.valueOf(
-                                            LocationUpdates.distanceBetween(currentLocation, targetLocation) / 1000)));
+                    resultDistance = LocationUpdates.distanceBetween(currentLocation, targetLocation) / 1000;
+                    double alertKMs = alertKM / 1000;
                     Log.e("Alert KM Distance", String.valueOf(alertKM));
+                    Log.e("Alert KM Distance", String.valueOf(alertKMs));
                     Log.e("Distance", String.valueOf(resultDistance));
-                    if (alertKM >= resultDistance) {
-                        showNotification("You reached "+String.valueOf(alertKM)+String.valueOf(resultDistance));
+                    Log.e("Dist without roundoff", String.valueOf(
+                            LocationUpdates.distanceBetween(currentLocation, targetLocation) / 1000));
+                    Log.e("Dist without get()", Utils.getMiles(
+                            LocationUpdates.distanceBetween(currentLocation, targetLocation) / 1000));
+                    if (alertKMs >= resultDistance) {
+                        showNotification("You reached " + String.valueOf(alertKM) + String.valueOf(resultDistance));
                     }
                     break;
                 case 1:

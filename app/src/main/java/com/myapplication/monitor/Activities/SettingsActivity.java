@@ -26,7 +26,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     View mapTypeLayout;
     View soundLayout;
     View vibrateLayout;
-    CheckBox checkBoxSound,checkBoxVibrate;
+    CheckBox checkBoxSound;
+    CheckBox checkBoxVibrate;
     TextView selectedTextMapType;
     String selectedStrMapType;
     String strStoredMapType;
@@ -64,8 +65,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public void initToolbar(){
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     public void setListeners(){
@@ -171,10 +174,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                goHome();
-                return true;
+        int i = item.getItemId();
+        if (i == android.R.id.home) {
+            goHome();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

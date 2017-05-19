@@ -2,12 +2,15 @@ package com.myapplication.monitor.LocationHelpers;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -80,7 +83,7 @@ public class LocationUpdates {
     public static GoogleApiClient.OnConnectionFailedListener onConnectionFailedListener = new GoogleApiClient.OnConnectionFailedListener() {
         @Override
         public void onConnectionFailed(ConnectionResult connectionResult) {
-
+            Log.e("connection failed",connectionResult.getErrorMessage());
         }
 
     };
@@ -101,6 +104,8 @@ public class LocationUpdates {
             if (mLastLocation != null) {
                 mLatitude = mLastLocation.getLatitude();
                 mLongitude = mLastLocation.getLongitude();
+                LocationHandlers.updateLocListener.sendEmptyMessage(0);
+            } else {
                 LocationHandlers.updateLocListener.sendEmptyMessage(0);
             }
         }

@@ -182,11 +182,13 @@
     </LinearLayout>
 
     <Button
+        android:textStyle="bold"
+        android:padding="15dp"
         android:id="@+id/btnLogout"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Logout" />
+        android:text="@string/logout" />
 
 </RelativeLayout>

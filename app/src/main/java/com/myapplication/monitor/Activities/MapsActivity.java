@@ -19,8 +19,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     SessionManager sessionManager;
     private GoogleMap mMap;
 
-    private ImageView settingsBtn;
-    private ImageView savedLocationListBtn;
+    private ImageView btnSettings;
+    private ImageView btnDetails;
 
     private String strMapType;
 
@@ -45,15 +45,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void initView() {
 
-        settingsBtn = (ImageView) findViewById(R.id.btnSettings);
-        savedLocationListBtn = (ImageView) findViewById(R.id.btnDetails);
+        btnSettings = (ImageView) findViewById(R.id.btnSettings);
+        btnDetails = (ImageView) findViewById(R.id.btnDetails);
     }
 
     private void setListeners() {
-        settingsBtn.setOnClickListener(new View.OnClickListener() {
+        btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MapsActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right );
+            }
+        });
+
+        btnDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapsActivity.this, HomeActivity.class);
                 startActivity(intent);
                 overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right );
             }

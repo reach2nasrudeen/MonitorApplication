@@ -16,6 +16,7 @@
     <string name="map_type_hybrid">Hybrid</string>
     <string name="map_type_satellite">Satellite</string>
     <string name="map_type_terrain">Terrain</string>
+    <string name="logout">Logout</string>
 
     <integer name="map_type_normal">1</integer>
     <integer name="map_type_hybrid">2</integer>
