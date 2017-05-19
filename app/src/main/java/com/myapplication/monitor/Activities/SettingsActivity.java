@@ -45,8 +45,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         if(!strStoredMapType.equals("")){
             selectedTextMapType.setText(strStoredMapType);
         }
-        checkBoxSound.setChecked(Boolean.parseBoolean(sessionManager.getStoredNotificationSoundProperty()));
-        checkBoxVibrate.setChecked(Boolean.parseBoolean(sessionManager.getStoredNotificationVibrateProperty()));
+        checkBoxSound.setChecked(sessionManager.getStoredNotificationSoundProperty());
+        checkBoxVibrate.setChecked(sessionManager.getStoredNotificationVibrateProperty());
         processMapTypeDialog();
     }
 
@@ -160,14 +160,15 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.notificationSound:
-                sessionManager.storeNotificationSound(String.valueOf(checkBoxSound.isChecked()));
+                sessionManager.storeNotificationSound(checkBoxSound.isChecked());
                 break;
             case R.id.notificationVibrate:
-                sessionManager.storeNotificationVibrate(String.valueOf(checkBoxVibrate.isChecked()));
+                sessionManager.storeNotificationVibrate(checkBoxVibrate.isChecked());
                 break;
             case R.id.btnLogout:
                 sessionManager.setUserLoginStatus(false);
-                goHome();
+                Intent intent = new Intent(this, RegisterActivity.class);
+                goHome(intent);
                 break;
         }
     }
@@ -176,17 +177,18 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == android.R.id.home) {
-            goHome();
+            Intent intent = new Intent(this, MapsActivity.class);
+            goHome(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
     @Override
     public void onBackPressed() {
-        goHome();
-    }
-    private void goHome(){
         Intent intent = new Intent(this, MapsActivity.class);
+        goHome(intent);
+    }
+    private void goHome(Intent intent){
         startActivity(intent);
         finish();
         overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right );

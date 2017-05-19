@@ -31,14 +31,15 @@ public class RegisterViewModel extends RegisterBaseViewModel implements Register
     @Override
     public void onRegister() {
 
-        registerViewDelegate.onRegisterSuccess();
-        /*if (isValid()) {
+        if (isValid()) {
             registerViewDelegate.showProgressView(true);
             registerDataManager.doRegister(getUserName(),
                     getUserPhone(),
                     getDeviceId(),
                     getDeviceBrand(),
-                    getDeviceModel(), new DataResponse<Place>() {
+                    getDeviceModel(),
+                    getLatitude(),
+                    getLongitude(), new DataResponse<Place>() {
                         @Override
                         public void onSuccess(String message) {
                             //No implementation
@@ -63,7 +64,7 @@ public class RegisterViewModel extends RegisterBaseViewModel implements Register
                             registerViewDelegate.showErrorMessage(errorMessage, MessageViewType.Toast);
                         }
                     });
-        }*/
+        }
 
     }
 

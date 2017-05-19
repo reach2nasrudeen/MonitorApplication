@@ -1,5 +1,6 @@
 package com.myapplication.monitor.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,23 +19,26 @@ import com.myapplication.monitor.Utils.SessionManager;
 public class HomeActivity extends BaseActivity {
     SessionManager sessionManager;
     private TextView textStatus;
+    private TextView textPlace;
     Toolbar toolbar;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         sessionManager = getApp().getUserPreference();
         initToolbar();
-        sessionManager.setPlaceRadius("1500");
+//        sessionManager.setPlaceRadius("1500");
+        textPlace = (TextView) findViewById(R.id.textPlace);
         textStatus = (TextView) findViewById(R.id.textStatus);
 
-        textStatus.setText(sessionManager.getPlaceName());
-        textStatus.append("\n"+sessionManager.getPlaceAddress());
-        textStatus.append("\n"+sessionManager.getPlacePhone());
-        textStatus.append("\n"+sessionManager.getPlacelat());
-        textStatus.append("\n"+sessionManager.getPlaceLong());
-        textStatus.append("\n"+sessionManager.getPlaceRadius());
+        textPlace.setText("Place Name : "+ sessionManager.getPlaceName());
+        textStatus.append("\nAddress : "+sessionManager.getPlaceAddress());
+        textStatus.append("\n\nPhone : "+sessionManager.getPlacePhone());
+        textStatus.append("\n\nLatitude : "+sessionManager.getPlacelat());
+        textStatus.append("\n\nLongitude : "+sessionManager.getPlaceLong());
+        textStatus.append("\n\nRadius : "+sessionManager.getPlaceRadius());
 
         Button buttonStop = (Button) findViewById(R.id.btnStop);
         buttonStop.setOnClickListener(new View.OnClickListener() {

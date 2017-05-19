@@ -31,9 +31,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         sessionManager = new SessionManager(this);
-        sessionManager.setPlaceLat("13.0304813");
-        sessionManager.setPlaceLong("80.2600098");
-        sessionManager.setPlaceName("Office");
+//        sessionManager.setPlaceLat("13.0304813");
+//        sessionManager.setPlaceLong("80.2600098");
+//        sessionManager.setPlaceName("Office");
         strMapType = sessionManager.getStoredMapType();
         initView();
         setListeners();
@@ -103,7 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         mMap.setMapType(getMapType());
     }
 }

@@ -6,25 +6,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
-import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.LatLng;
-import com.myapplication.monitor.Activities.MainActivity;
+import com.myapplication.monitor.Activities.MapsActivity;
+import com.myapplication.monitor.Activities.RegisterActivity;
 import com.myapplication.monitor.R;
 import com.myapplication.monitor.Utils.SessionManager;
-import com.myapplication.monitor.Utils.Utils;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
+import static com.myapplication.monitor.Base.MonitorApp.getApp;
 
 public class LocationHandlers {
     public static Context mContext;
@@ -44,11 +38,6 @@ public class LocationHandlers {
                         if (sessionManager.getUserLoginStatus()) {
                             LocationUpdates.startLocationUpdates();
                         }
-//                        if(arrayList.size()!=0){
-
-//                        }if(arrayList.size() == 0){
-//                            LocationUpdates.stopLocationUpdates();
-//                        }
                     }
                     break;
                 case 1:
@@ -65,26 +54,8 @@ public class LocationHandlers {
                     LatLng currentLocation = new LatLng(LocationUpdates.mLatitude, LocationUpdates.mLongitude);
                     double latitude = LocationUpdates.mLatitude;
                     double longitude = LocationUpdates.mLongitude;
-
-                    /*Geocoder geocoder;
-                    List<Address> addresses = null;
-                    geocoder = new Geocoder(mContext, Locale.getDefault());
-
-                    try {
-                        addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }*/
-
-//                    String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-//                    String city = addresses.get(0).getLocality();
-//                    String state = addresses.get(0).getAdminArea();
-//                    String country = addresses.get(0).getCountryName();
-//                    String postalCode = addresses.get(0).getPostalCode();
-//                    String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
-
-
-//                    showNotification(String.format("You reached %f %s %s %s %s",latitude,address,city,state,knownName));
+                    sessionManager.setUserLat(String.valueOf(latitude));
+                    sessionManager.setUserLong(String.valueOf(longitude));
 
                     double resultDistance;
                     LatLng targetLocation;
@@ -95,13 +66,6 @@ public class LocationHandlers {
                     targetLocation = new LatLng(mLat, mLong);
                     resultDistance = LocationUpdates.distanceBetween(currentLocation, targetLocation) / 1000;
                     double alertKMs = alertKM / 1000;
-                    Log.e("Alert KM Distance", String.valueOf(alertKM));
-                    Log.e("Alert KM Distance", String.valueOf(alertKMs));
-                    Log.e("Distance", String.valueOf(resultDistance));
-                    Log.e("Dist without roundoff", String.valueOf(
-                            LocationUpdates.distanceBetween(currentLocation, targetLocation) / 1000));
-                    Log.e("Dist without get()", Utils.getMiles(
-                            LocationUpdates.distanceBetween(currentLocation, targetLocation) / 1000));
                     if (alertKMs >= resultDistance) {
                         showNotification("You reached " + String.valueOf(alertKM) + String.valueOf(resultDistance));
                     }
@@ -114,18 +78,27 @@ public class LocationHandlers {
     };
 
     private static void showNotification(String message) {
-        Intent i = new Intent(mContext, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent;
+        SessionManager sessionManager = getApp().getUserPreference();
+        if(sessionManager.getUserLoginStatus()) {
+            intent = new Intent(getApp().getApplicationContext(), MapsActivity.class);
+        } else {
+            intent = new Intent(getApp().getApplicationContext(), RegisterActivity.class);
+        }
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
-                .setSound(defaultSoundUri)
                 .setContentTitle(mContext.getString(R.string.app_name))
                 .setContentText(message)
                 .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
                 .setContentIntent(pendingIntent);
-
+        if(sessionManager.getStoredNotificationSoundProperty()) {
+            builder.setSound(defaultSoundUri);
+        } if(sessionManager.getStoredNotificationVibrateProperty()) {
+            builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        }
         NotificationManager manager = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
         manager.notify((int) System.currentTimeMillis(), builder.build());
 

@@ -14,7 +14,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
-import com.myapplication.monitor.Activities.MainActivity;
+import com.myapplication.monitor.Activities.MapsActivity;
+import com.myapplication.monitor.Activities.RegisterActivity;
 import com.myapplication.monitor.R;
 import com.myapplication.monitor.Utils.SessionManager;
 
@@ -35,7 +36,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         sessionManager.setPlacePhone(remoteMessage.getData().get("phone"));
         sessionManager.setPlaceAddress(remoteMessage.getData().get("address"));
         sessionManager.setPlaceName(remoteMessage.getData().get("name"));
-        showNotification(remoteMessage.getData().toString());
+        showNotification("Your monitoring location detils updated");
     }
     public static boolean isAppIsInBackground(Context context) {
         boolean isInBackground = true;
@@ -63,18 +64,29 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     }
 
     private static void showNotification(String message) {
-        Intent i = new Intent(getApp().getApplicationContext(), MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApp().getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent;
+        SessionManager sessionManager = getApp().getUserPreference();
+        if(sessionManager.getUserLoginStatus()) {
+            intent = new Intent(getApp().getApplicationContext(), MapsActivity.class);
+        } else {
+            intent = new Intent(getApp().getApplicationContext(), RegisterActivity.class);
+        }
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApp().getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
-                .setSound(defaultSoundUri)
                 .setContentTitle(mContext.getString(R.string.app_name))
                 .setContentText(message)
                 .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
                 .setContentIntent(pendingIntent);
 
+        if(sessionManager.getStoredNotificationSoundProperty()) {
+            builder.setSound(defaultSoundUri);
+        } if(sessionManager.getStoredNotificationVibrateProperty()) {
+            builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        }
         NotificationManager manager = (NotificationManager)getApp().getApplicationContext(). getSystemService(NOTIFICATION_SERVICE);
         manager.notify((int) System.currentTimeMillis(), builder.build());
 

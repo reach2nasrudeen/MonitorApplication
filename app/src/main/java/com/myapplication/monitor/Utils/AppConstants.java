@@ -14,4 +14,10 @@ public interface AppConstants {
     String PARAM_DEVICE_ID = "deviceId";
     String PARAM_DEVICE_BRAND = "deviceBrand";
     String PARAM_DEVICE_MODEL = "deviceModel";
+    String PARAM_LATITUDE = "latitude";
+    String PARAM_LONGITUDE = "longitude";
+
+
+    String PARAM_PUSH_USERNAME = "name";
+    String PARAM_PUSH_USER_TOKEN = "token";
 }

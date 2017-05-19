@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.myapplication.monitor.Base.BaseActivity;
+import com.myapplication.monitor.LocationHelpers.LocationHandlers;
+import com.myapplication.monitor.LocationHelpers.LocationUpdates;
 import com.myapplication.monitor.R;
 import com.myapplication.monitor.Utils.SessionManager;
 import com.myapplication.monitor.Utils.Utils;
@@ -20,6 +22,8 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mContext = this;
+        LocationHandlers locationHandler = new LocationHandlers(getApplicationContext());
+        LocationUpdates.buildGoogleApiClient(getApp().getApplicationContext());
         sessionManager = getApp().getUserPreference();
         registerFCM();
         /*new Handler().postDelayed(new Runnable() {
@@ -44,7 +48,7 @@ public class SplashActivity extends BaseActivity {
                 public void run() {
 //                    initActivity(new Intent(mContext, MapsActivity.class));
                     if (sessionManager.getUserLoginStatus()) {
-                        initActivity(new Intent(mContext, HomeActivity.class));
+                        initActivity(new Intent(mContext, MapsActivity.class));
                     } else {
                         initActivity(new Intent(mContext, RegisterActivity.class));
                     }
@@ -56,9 +60,9 @@ public class SplashActivity extends BaseActivity {
                 // Using handler with postDelayed called runnable run method
                 @Override
                 public void run() {
-                    initActivity(new Intent(mContext, MapsActivity.class));
+//                    initActivity(new Intent(mContext, MapsActivity.class));
                     if (sessionManager.getUserLoginStatus()) {
-                        initActivity(new Intent(mContext, HomeActivity.class));
+                        initActivity(new Intent(mContext, MapsActivity.class));
                     } else {
                         initActivity(new Intent(mContext, RegisterActivity.class));
                     }

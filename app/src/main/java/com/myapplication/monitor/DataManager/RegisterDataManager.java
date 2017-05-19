@@ -18,6 +18,7 @@ import java.io.IOException;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.myapplication.monitor.Base.MonitorApp.getApp;
@@ -37,23 +38,27 @@ public class RegisterDataManager implements AppConstants {
     }
 
     public void doRegister(String name,
-            String phone,
-            String deviceId,
-            String deviceBrand,
-            String deviceModel, final DataResponse<Place> dataResponse) {
+                           String phone,
+                           String deviceId,
+                           String deviceBrand,
+                           String deviceModel,
+                           String latitude,
+                           String longitude, final DataResponse<Place> dataResponse) {
 
         Call<ResponseBody> timeLogResponseCall = service.registerUser(name,
                 phone,
                 deviceId,
                 deviceBrand,
-                deviceModel);
+                deviceModel,
+                latitude,
+                longitude);
 
         timeLogResponseCall.enqueue(new RetrofitCallback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 int statusCode = response.code();
 
-                if(statusCode == 200) {
+                if (statusCode == 200) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
 
@@ -66,8 +71,8 @@ public class RegisterDataManager implements AppConstants {
                         place.setLatitude(Double.parseDouble(placeObject.getString("latitude")));
                         place.setLongitude(Double.parseDouble(placeObject.getString("longitude")));
                         place.setRadius(Integer.parseInt(placeObject.getString("radius")));
-                        Log.e("Status","Register Success");
-                        dataResponse.onSuccess(place,"Register Success");
+                        Log.e("Status", "Register Success");
+                        dataResponse.onSuccess(place, "Register Success");
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
@@ -80,6 +85,28 @@ public class RegisterDataManager implements AppConstants {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d(TAG, "onResponse: " + t.getMessage());
                 dataResponse.onFailure("Something went wrong while trying login!");
+            }
+        });
+    }
+
+    public void doUpdateToken(String name, String token, final DataResponse<String> dataResponse) {
+        Call<ResponseBody> updateTokenCall = service.updateToken(name,token);
+
+        updateTokenCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                int statusCode = response.code();
+
+                if (statusCode == 201) {
+                    dataResponse.onSuccess("Token updated success");
+                    Log.e(TAG,"Token updated success");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dataResponse.onSuccess("Token updated failure");
+                Log.e(TAG,"Token updated failure");
             }
         });
     }

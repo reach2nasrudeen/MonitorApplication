@@ -68,6 +68,8 @@ public class RegisterActivity extends BaseActivity implements RegisterViewDelega
         registerViewModel.setDeviceId(Utils.getUDID(mContext));
         registerViewModel.setDeviceModel(Build.MODEL);
         registerViewModel.setDeviceBrand(Build.BRAND.toUpperCase());
+        registerViewModel.setLatitude(sessionManager.getUserlat());
+        registerViewModel.setLongitude(sessionManager.getUserLong());
     }
 
     private void setupListener() {
@@ -113,23 +115,15 @@ public class RegisterActivity extends BaseActivity implements RegisterViewDelega
     public void onRegisterSuccess() {
         sessionManager.setUserLoginStatus(true);
 
-        /*Place place = registerViewModel.getPlace();
+        Place place = registerViewModel.getPlace();
         sessionManager.setPlaceName(place.getName());
         sessionManager.setPlaceAddress(place.getAddress());
         sessionManager.setPlaceLat(String.valueOf(place.getLatitude()));
         sessionManager.setPlaceLong(String.valueOf(place.getLongitude()));
         sessionManager.setPlacePhone(place.getPhone());
-        sessionManager.setPlaceRadius(String.valueOf(place.getRadius()));*/
+        sessionManager.setPlaceRadius(String.valueOf(place.getRadius()));
 
-        sessionManager.setPlaceName("Office");
-        sessionManager.setPlaceAddress("Chennai");
-        sessionManager.setPlaceLat("13.0304813");
-        sessionManager.setPlaceLong("80.2600098");
-        sessionManager.setPlacePhone("9362746129");
-        sessionManager.setPlaceRadius("500");
-
-
-        initActivity(new Intent(mContext,HomeActivity.class));
+        initActivity(new Intent(mContext,MapsActivity.class));
         Toast.makeText(mContext, "Register Success", Toast.LENGTH_SHORT).show();
     }
 

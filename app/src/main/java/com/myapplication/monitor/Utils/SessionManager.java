@@ -17,6 +17,8 @@ public class SessionManager {
 
     private static final String PREFER_NAME = "monitorPreferences";
     private static final String KEY_USER_LOGIN = "USER_LOGGED_IN";
+    private static final String KEY_USER_LAT = "USER_LAT";
+    private static final String KEY_USER_LONG = "USER_LONG";
     private static final String KEY_PLACE_NAME = "PLACE_NAME";
     private static final String KEY_PLACE_LAT = "PLACE_LAT";
     private static final String KEY_PLACE_LONG = "PLACE_LONG";
@@ -104,14 +106,14 @@ public class SessionManager {
         // commit changes
         editor.commit();
     }
-    public void storeNotificationSound(String notificationSound){
-        editor.putString(KEY_NOTIFICATION_SOUND, notificationSound);
+    public void storeNotificationSound(boolean notificationSound){
+        editor.putBoolean(KEY_NOTIFICATION_SOUND, notificationSound);
 
         // commit changes
         editor.commit();
     }
-    public void storeNotificationVibrate(String notificationVibrate){
-        editor.putString(KEY_NOTIFICATION_VIBRATE, notificationVibrate);
+    public void storeNotificationVibrate(boolean notificationVibrate){
+        editor.putBoolean(KEY_NOTIFICATION_VIBRATE, notificationVibrate);
 
         // commit changes
         editor.commit();
@@ -123,12 +125,30 @@ public class SessionManager {
         // return user
         return pref.getString(KEY_MAP_TYPE, "");
     }
-    public String getStoredNotificationSoundProperty(){
+    public boolean getStoredNotificationSoundProperty(){
         // return user
-        return pref.getString(KEY_NOTIFICATION_SOUND, "");
+        return pref.getBoolean(KEY_NOTIFICATION_SOUND, false);
     }
-    public String getStoredNotificationVibrateProperty(){
+    public boolean getStoredNotificationVibrateProperty(){
         // return user
-        return pref.getString(KEY_NOTIFICATION_VIBRATE, "");
+        return pref.getBoolean(KEY_NOTIFICATION_VIBRATE, false);
+    }
+
+    public void setUserLat(String userLat) {
+        editor.putString(KEY_USER_LAT, userLat);
+        editor.commit();
+    }
+
+    public String getUserlat() {
+        return pref.getString(KEY_USER_LAT, "0.0");
+    }
+
+    public void setUserLong(String userLong) {
+        editor.putString(KEY_USER_LONG, userLong);
+        editor.commit();
+    }
+
+    public String getUserLong() {
+        return pref.getString(KEY_USER_LONG, "0.0");
     }
 }
