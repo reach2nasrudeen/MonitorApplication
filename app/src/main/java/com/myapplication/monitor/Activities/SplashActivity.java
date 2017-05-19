@@ -38,17 +38,30 @@ public class SplashActivity extends BaseActivity {
         boolean InternetStatus = Utils.isInternetConnected(this);
         if(InternetStatus){
             FirebaseInstanceId.getInstance().getToken();
+            new Handler().postDelayed(new Runnable() {
+                // Using handler with postDelayed called runnable run method
+                @Override
+                public void run() {
+                    initActivity(new Intent(mContext, MapsActivity.class));
+                    /*if (sessionManager.getUserLoginStatus()) {
+                        initActivity(new Intent(mContext, HomeActivity.class));
+                    } else {
+                        initActivity(new Intent(mContext, RegisterActivity.class));
+                    }*/
+                }
+            }, 2*1000); // wait for 2 seconds
         }
         else{
             new Handler().postDelayed(new Runnable() {
                 // Using handler with postDelayed called runnable run method
                 @Override
                 public void run() {
-                    if (sessionManager.getUserLoginStatus()) {
+                    initActivity(new Intent(mContext, MapsActivity.class));
+                    /*if (sessionManager.getUserLoginStatus()) {
                         initActivity(new Intent(mContext, HomeActivity.class));
                     } else {
                         initActivity(new Intent(mContext, RegisterActivity.class));
-                    }
+                    }*/
                 }
             }, 2*1000); // wait for 2 seconds
         }

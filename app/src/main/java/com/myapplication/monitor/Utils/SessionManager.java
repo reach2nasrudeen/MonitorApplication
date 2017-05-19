@@ -24,6 +24,10 @@ public class SessionManager {
     private static final String KEY_PLACE_ADDRESS = "PLACE_ADDRESS";
     private static final String KEY_PLACE_PHONE = "PLACE_PHONE";
 
+    public static final String KEY_MAP_TYPE = "MAP_TYPE";
+    public static final String KEY_NOTIFICATION_SOUND = "NOTIFICATION_SOUND";
+    public static final String KEY_NOTIFICATION_VIBRATE = "NOTIFICATION_VIBRATE";
+
     public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREFER_NAME, PRIVATE_MODE);
@@ -92,5 +96,39 @@ public class SessionManager {
 
     public boolean getUserLoginStatus() {
         return pref.getBoolean(KEY_USER_LOGIN, false);
+    }
+
+    public void storeMapType(String mapType){
+        editor.putString(KEY_MAP_TYPE, mapType);
+
+        // commit changes
+        editor.commit();
+    }
+    public void storeNotificationSound(String notificationSound){
+        editor.putString(KEY_NOTIFICATION_SOUND, notificationSound);
+
+        // commit changes
+        editor.commit();
+    }
+    public void storeNotificationVibrate(String notificationVibrate){
+        editor.putString(KEY_NOTIFICATION_VIBRATE, notificationVibrate);
+
+        // commit changes
+        editor.commit();
+    }
+    /**
+     * Get stored session data
+     * */
+    public String getStoredMapType(){
+        // return user
+        return pref.getString(KEY_MAP_TYPE, "");
+    }
+    public String getStoredNotificationSoundProperty(){
+        // return user
+        return pref.getString(KEY_NOTIFICATION_SOUND, "");
+    }
+    public String getStoredNotificationVibrateProperty(){
+        // return user
+        return pref.getString(KEY_NOTIFICATION_VIBRATE, "");
     }
 }

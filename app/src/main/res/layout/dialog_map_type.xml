@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="25dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/mapType"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="Map Type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_below="@id/mapType"
+        android:id="@+id/buttonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioGroup
+            android:layout_marginTop="10dp"
+            android:id="@+id/maptypeGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:text="@string/map_type_normal"
+                android:id="@+id/normalMapBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:text="@string/map_type_hybrid"
+                android:id="@+id/hybridMapBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:text="@string/map_type_satellite"
+                android:id="@+id/satelliteMapBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:text="@string/map_type_terrain"
+                android:id="@+id/terrainMapBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
+    </LinearLayout>
+    <TextView
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/buttonLayout"
+        android:layout_toLeftOf="@+id/cancelButton"
+        android:textColor="@android:color/holo_green_dark"
+        android:clickable="true"
+        android:text="Ok"
+        android:id="@+id/okButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@+id/buttonLayout"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/holo_green_dark"
+        android:clickable="true"
+        android:text="Cancel"
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

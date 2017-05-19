@@ -1,0 +1,9 @@
+
+qsquid:S3008"WRename this field "SERVICE_PATH" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾ˆ¤üÿÿÿÿ
+2squid:S1118"Hide this public constructor.(Œ¦öĞ
+>squid:S3010")Remove this assignment of "SERVICE_PATH".(ãøÊƒ
+:squid:S3010"%Remove this assignment of "BASE_URL".(ÊùˆÆ
+Hsquid:S1444".Make this "public static BASE_URL" field final(Éøªôøÿÿÿÿ
+msquid:S3008"SRename this field "BASE_URL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Éøªôøÿÿÿÿ
+Lsquid:S1444"2Make this "public static SERVICE_PATH" field final(¾ˆ¤üÿÿÿÿ
+Msquid:S1313"1Make this IP "192.168.0.38" address configurable.(ÊùˆÆ8×¯›€Â+

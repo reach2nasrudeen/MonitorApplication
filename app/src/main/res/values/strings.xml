@@ -9,4 +9,16 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="press_again_to_exit">Press back again to exit.</string>
+    <string name="title_activity_maps">Map</string>
+
+
+    <string name="map_type_normal">Normal</string>
+    <string name="map_type_hybrid">Hybrid</string>
+    <string name="map_type_satellite">Satellite</string>
+    <string name="map_type_terrain">Terrain</string>
+
+    <integer name="map_type_normal">1</integer>
+    <integer name="map_type_hybrid">2</integer>
+    <integer name="map_type_satellite">3</integer>
+    <integer name="map_type_terrain">4</integer>
 </resources>
