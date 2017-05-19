@@ -24,11 +24,9 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:padding="15dp"
-            android:text="test"
             android:textColor="@android:color/black" />
 
         <TextView
-            android:text="test"
             android:id="@+id/textStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

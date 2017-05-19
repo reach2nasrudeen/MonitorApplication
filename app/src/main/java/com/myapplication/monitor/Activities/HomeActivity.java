@@ -22,7 +22,6 @@ public class HomeActivity extends BaseActivity {
     private TextView textPlace;
     Toolbar toolbar;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +32,7 @@ public class HomeActivity extends BaseActivity {
         textPlace = (TextView) findViewById(R.id.textPlace);
         textStatus = (TextView) findViewById(R.id.textStatus);
 
-        textPlace.setText("Place Name : "+ sessionManager.getPlaceName());
+        textPlace.setText(getString(R.string.place)+ sessionManager.getPlaceName());
         textStatus.append("\nAddress : "+sessionManager.getPlaceAddress());
         textStatus.append("\n\nPhone : "+sessionManager.getPlacePhone());
         textStatus.append("\n\nLatitude : "+sessionManager.getPlacelat());

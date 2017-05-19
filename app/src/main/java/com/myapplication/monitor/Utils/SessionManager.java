@@ -17,6 +17,7 @@ public class SessionManager {
 
     private static final String PREFER_NAME = "monitorPreferences";
     private static final String KEY_USER_LOGIN = "USER_LOGGED_IN";
+    private static final String IS_NOTIFIED = "IS_NOTIFIED";
     private static final String KEY_USER_LAT = "USER_LAT";
     private static final String KEY_USER_LONG = "USER_LONG";
     private static final String KEY_PLACE_NAME = "PLACE_NAME";
@@ -150,5 +151,14 @@ public class SessionManager {
 
     public String getUserLong() {
         return pref.getString(KEY_USER_LONG, "0.0");
+    }
+
+    public void setNotifiedStatus(boolean isNotified) {
+        editor.putBoolean(IS_NOTIFIED, isNotified);
+        editor.commit();
+    }
+
+    public boolean getNotifiedStatus() {
+        return pref.getBoolean(IS_NOTIFIED, false);
     }
 }
