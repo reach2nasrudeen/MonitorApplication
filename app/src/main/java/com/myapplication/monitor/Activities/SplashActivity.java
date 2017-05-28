@@ -50,7 +50,7 @@ public class SplashActivity extends BaseActivity {
                     if (sessionManager.getUserLoginStatus()) {
                         initActivity(new Intent(mContext, MapsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     } else {
-                        initActivity(new Intent(mContext, RegisterActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        initActivity(new Intent(mContext, RegisterStep1.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     }
                 }
             }, 2*1000); // wait for 2 seconds
@@ -64,7 +64,7 @@ public class SplashActivity extends BaseActivity {
                     if (sessionManager.getUserLoginStatus()) {
                         initActivity(new Intent(mContext, MapsActivity.class));
                     } else {
-                        initActivity(new Intent(mContext, RegisterActivity.class));
+                        initActivity(new Intent(mContext, RegisterStep1.class));
                     }
                 }
             }, 2*1000); // wait for 2 seconds

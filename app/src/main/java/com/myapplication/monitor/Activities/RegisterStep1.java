@@ -3,8 +3,8 @@ package com.myapplication.monitor.Activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,44 +15,41 @@ import com.myapplication.monitor.Base.BaseActivity;
 import com.myapplication.monitor.Interfaces.ViewResponseDelegates.MessageViewType;
 import com.myapplication.monitor.Interfaces.ViewResponseDelegates.RegisterViewDelegate;
 import com.myapplication.monitor.Model.Place;
-import com.myapplication.monitor.Model.User;
 import com.myapplication.monitor.R;
 import com.myapplication.monitor.Utils.SessionManager;
-import com.myapplication.monitor.Utils.Utils;
 import com.myapplication.monitor.ViewModels.RegisterViewModel;
 
-
-public class RegisterActivity extends BaseActivity implements RegisterViewDelegate {
-    EditText textName;
+public class RegisterStep1 extends BaseActivity implements RegisterViewDelegate {
+    Context mContext;
+    EditText textPhone;
     Button btnProceed;
-    String phone;
-    private Context mContext;
     private ProgressDialog dialog;
-
+    private RegisterViewModel registerViewModel;
     private SessionManager sessionManager;
-    RegisterViewModel registerViewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-
-        mContext = this;
+        setContentView(R.layout.activity_register_step1);
         sessionManager = getApp().getUserPreference();
+        mContext = this;
         registerViewModel = new RegisterViewModel(this);
-
-        phone = getIntent().getStringExtra("phone");
-
         initView();
         initDialog();
-        setupListener();
+        setupListeners();
     }
-
+    private void setupListeners() {
+        btnProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerViewModel.setUserPhone(textPhone.getText().toString());
+                registerViewModel.onCheckUserExist();
+            }
+        });
+    }
     private void initView() {
-        textName = (EditText) findViewById(R.id.textName);
+        textPhone = (EditText) findViewById(R.id.textPhone);
         btnProceed = (Button) findViewById(R.id.btnProceed);
     }
-
     private void initDialog() {
         dialog = new ProgressDialog(mContext);
         dialog.setProgressStyle(android.R.attr.progressBarStyleSmall);
@@ -60,28 +57,6 @@ public class RegisterActivity extends BaseActivity implements RegisterViewDelega
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
     }
-
-    private User getUserData() {
-        User user = new User();
-        user.setDeviceId(Utils.getUDID(mContext));
-        user.setDeviceModel(Build.MODEL);
-        user.setDeviceBrand(Build.BRAND.toUpperCase());
-        user.setLatitude(sessionManager.getUserlat());
-        user.setLongitude(sessionManager.getUserLong());
-        user.setName(textName.getText().toString());
-        user.setPhone(phone);
-        return user;
-    }
-    private void setupListener() {
-        btnProceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerViewModel.setUser(getUserData());
-                registerViewModel.onRegister();
-            }
-        });
-    }
-
     @Override
     public void showProgressView(Boolean show) {
         if (dialog != null) {
@@ -95,7 +70,9 @@ public class RegisterActivity extends BaseActivity implements RegisterViewDelega
 
     @Override
     public void showErrorMessage(int errorMessage, MessageViewType viewType) {
-        //No implementation
+        if (viewType == MessageViewType.Toast) {
+            Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -121,18 +98,18 @@ public class RegisterActivity extends BaseActivity implements RegisterViewDelega
         sessionManager.setPlaceLong(String.valueOf(place.getLongitude()));
         sessionManager.setPlacePhone(place.getPhone());
         sessionManager.setPlaceRadius(String.valueOf(place.getRadius()));
-
-        initActivity(new Intent(mContext,MapsActivity.class));
-//        Toast.makeText(mContext, "Register Success", Toast.LENGTH_SHORT).show();
+        initActivity(new Intent(this,MapsActivity.class));
     }
 
     @Override
     public void launchRegistration() {
-        // No implementation
+        initActivity(new Intent(this,RegisterActivity.class));
     }
 
     private void initActivity(Intent intent) {
+        intent.putExtra("phone",registerViewModel.getUserPhone());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
         finish();

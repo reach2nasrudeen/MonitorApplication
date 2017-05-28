@@ -1,6 +1,7 @@
 package com.myapplication.monitor.ViewModels;
 
 import com.myapplication.monitor.Model.Place;
+import com.myapplication.monitor.Model.User;
 import com.myapplication.monitor.Model.UserResponse;
 
 /**
@@ -8,29 +9,16 @@ import com.myapplication.monitor.Model.UserResponse;
  */
 
 public class RegisterBaseViewModel {
-    private String deviceModel;
-    private String deviceBrand;
-    private String deviceId;
-    private String userName;
     private String userPhone;
     private Place place;
-    private String latitude;
-    private String longitude;
+    private User user;
 
-    public String getLatitude() {
-        return latitude;
+    public User getUser() {
+        return user;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Place getPlace() {
@@ -39,38 +27,6 @@ public class RegisterBaseViewModel {
 
     public void setPlace(Place place) {
         this.place = place;
-    }
-
-    public String getDeviceModel() {
-        return deviceModel;
-    }
-
-    public void setDeviceModel(String deviceModel) {
-        this.deviceModel = deviceModel;
-    }
-
-    public String getDeviceBrand() {
-        return deviceBrand;
-    }
-
-    public void setDeviceBrand(String deviceBrand) {
-        this.deviceBrand = deviceBrand;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getUserPhone() {

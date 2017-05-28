@@ -6,4 +6,5 @@ package com.myapplication.monitor.Interfaces.ViewDelegates;
 
 public interface RegisterDelegate {
     void onRegister();
+    void onCheckUserExist();
 }

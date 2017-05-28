@@ -29,7 +29,12 @@ public interface MonitorApiInterface {
                                     @Field(AppConstants.PARAM_DEVICE_BRAND) String deviceBrand,
                                     @Field(AppConstants.PARAM_DEVICE_MODEL) String deviceModel,
                                     @Field(AppConstants.PARAM_LATITUDE) String latitude,
-                                    @Field(AppConstants.PARAM_LONGITUDE) String longitude);@FormUrlEncoded
+                                    @Field(AppConstants.PARAM_LONGITUDE) String longitude);
+    @FormUrlEncoded
+    @POST(WebServiceURL.CHECK_USER_EXIST)
+    Call<ResponseBody> checkUserExist(@Field(AppConstants.PARAM_USER_PHONE) String phone);
+
+    @FormUrlEncoded
     @POST(WebServiceURL.UPDATE_USER_TOKEN)
     Call<ResponseBody> updateToken(@Field(AppConstants.PARAM_PUSH_USERNAME) String name,
                                     @Field(AppConstants.PARAM_PUSH_USER_TOKEN) String token);

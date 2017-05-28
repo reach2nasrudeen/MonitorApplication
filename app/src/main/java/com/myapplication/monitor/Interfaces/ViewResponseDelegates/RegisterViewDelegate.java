@@ -6,4 +6,5 @@ package com.myapplication.monitor.Interfaces.ViewResponseDelegates;
 
 public interface RegisterViewDelegate extends StateViewDelegate, ProgressViewDelegate{
     void onRegisterSuccess();
+    void launchRegistration();
 }
