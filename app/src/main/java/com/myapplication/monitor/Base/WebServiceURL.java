@@ -10,7 +10,7 @@ public class WebServiceURL {
     public static String SERVICE_PATH;
 
     public WebServiceURL() {
-        BASE_URL = "http://192.168.1.3/";
+        BASE_URL = "http://192.168.0.100:8888/";
         SERVICE_PATH = "Monitor/v1/";
     }
 

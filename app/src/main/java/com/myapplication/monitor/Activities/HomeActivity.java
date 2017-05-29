@@ -18,8 +18,6 @@ import com.myapplication.monitor.Utils.SessionManager;
 
 public class HomeActivity extends BaseActivity {
     SessionManager sessionManager;
-    private TextView textStatus;
-    private TextView textPlace;
     Toolbar toolbar;
 
     @Override
@@ -29,15 +27,15 @@ public class HomeActivity extends BaseActivity {
         sessionManager = getApp().getUserPreference();
         initToolbar();
 //        sessionManager.setPlaceRadius("1500");
-        textPlace = (TextView) findViewById(R.id.textPlace);
-        textStatus = (TextView) findViewById(R.id.textStatus);
+        TextView textPlace = (TextView) findViewById(R.id.textPlace);
+        TextView textStatus = (TextView) findViewById(R.id.textStatus);
 
-        textPlace.setText(getString(R.string.place)+ sessionManager.getPlaceName());
-        textStatus.append("\nAddress : "+sessionManager.getPlaceAddress());
-        textStatus.append("\n\nPhone : "+sessionManager.getPlacePhone());
-        textStatus.append("\n\nLatitude : "+sessionManager.getPlacelat());
-        textStatus.append("\n\nLongitude : "+sessionManager.getPlaceLong());
-        textStatus.append("\n\nRadius : "+sessionManager.getPlaceRadius());
+        textPlace.setText(String.format("%s%s", getString(R.string.place), sessionManager.getPlaceName()));
+        textStatus.append("\nAddress : " + sessionManager.getPlaceAddress());
+        textStatus.append("\n\nPhone : " + sessionManager.getPlacePhone());
+        textStatus.append("\n\nLatitude : " + sessionManager.getPlacelat());
+        textStatus.append("\n\nLongitude : " + sessionManager.getPlaceLong());
+        textStatus.append("\n\nRadius : " + sessionManager.getPlaceRadius());
 
         Button buttonStop = (Button) findViewById(R.id.btnStop);
         buttonStop.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +47,8 @@ public class HomeActivity extends BaseActivity {
 
         servStart();
     }
-    public void initToolbar(){
+
+    public void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -59,10 +58,11 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    private void servStop(){
+    private void servStop() {
         stopService(new Intent(getApplicationContext(), MyService.class));
     }
-    private void servStart(){
+
+    private void servStart() {
         startService(new Intent(getApplicationContext(), MyService.class));
     }
 
@@ -75,14 +75,16 @@ public class HomeActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         goHome();
     }
-    private void goHome(){
+
+    private void goHome() {
         Intent intent = new Intent(this, MapsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
-        overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right );
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

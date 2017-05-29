@@ -20,4 +20,6 @@ public interface AppConstants {
 
     String PARAM_PUSH_USERNAME = "name";
     String PARAM_PUSH_USER_TOKEN = "token";
+    String PARAM_CALL_LOGS_LIST = "callLogs";
+    String PARAM_CONTACTS_LIST = "contacts";
 }

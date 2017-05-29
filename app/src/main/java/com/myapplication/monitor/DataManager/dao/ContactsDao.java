@@ -15,6 +15,7 @@ import io.realm.Realm;
 
 public class ContactsDao {
     private final String TAG = CallDao.class.getSimpleName();
+
     public void storeOrUpdateCallsList(final List<ContactsRealm> contactsRealmList, final DaoResponse callback) {
         final Realm realm = Realm.getDefaultInstance();
 

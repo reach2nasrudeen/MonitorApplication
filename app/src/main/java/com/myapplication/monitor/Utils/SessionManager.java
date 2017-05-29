@@ -26,6 +26,7 @@ public class SessionManager {
     private static final String KEY_PLACE_RADIUS = "PLACE_RADIUS";
     private static final String KEY_PLACE_ADDRESS = "PLACE_ADDRESS";
     private static final String KEY_PLACE_PHONE = "PLACE_PHONE";
+    private static final String KEY_USER_ID = "USER_ID";
 
     public static final String KEY_MAP_TYPE = "MAP_TYPE";
     public static final String KEY_NOTIFICATION_SOUND = "NOTIFICATION_SOUND";
@@ -37,6 +38,15 @@ public class SessionManager {
         editor = pref.edit();
     }
 
+
+    public void setUserId(String userId) {
+        editor.putString(KEY_USER_ID, userId);
+        editor.commit();
+    }
+
+    public String getUserId() {
+        return pref.getString(KEY_USER_ID, "");
+    }
 
     public void setPlaceName(String placeName) {
         editor.putString(KEY_PLACE_NAME, placeName);

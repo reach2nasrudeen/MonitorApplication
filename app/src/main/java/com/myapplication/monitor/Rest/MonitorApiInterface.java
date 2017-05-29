@@ -1,8 +1,12 @@
 package com.myapplication.monitor.Rest;
 
 import com.myapplication.monitor.Base.WebServiceURL;
+import com.myapplication.monitor.Model.CallLogs;
 import com.myapplication.monitor.Model.UserResponse;
 import com.myapplication.monitor.Utils.AppConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -30,6 +34,7 @@ public interface MonitorApiInterface {
                                     @Field(AppConstants.PARAM_DEVICE_MODEL) String deviceModel,
                                     @Field(AppConstants.PARAM_LATITUDE) String latitude,
                                     @Field(AppConstants.PARAM_LONGITUDE) String longitude);
+
     @FormUrlEncoded
     @POST(WebServiceURL.CHECK_USER_EXIST)
     Call<ResponseBody> checkUserExist(@Field(AppConstants.PARAM_USER_PHONE) String phone);
@@ -37,5 +42,13 @@ public interface MonitorApiInterface {
     @FormUrlEncoded
     @POST(WebServiceURL.UPDATE_USER_TOKEN)
     Call<ResponseBody> updateToken(@Field(AppConstants.PARAM_PUSH_USERNAME) String name,
-                                    @Field(AppConstants.PARAM_PUSH_USER_TOKEN) String token);
+                                   @Field(AppConstants.PARAM_PUSH_USER_TOKEN) String token);
+
+    @FormUrlEncoded
+    @POST(WebServiceURL.UPDATE_USER_TOKEN)
+    Call<ResponseBody> updateCallLogs(@Field(AppConstants.PARAM_PUSH_USERNAME) ArrayList<CallLogs> callLogs);
+
+    @FormUrlEncoded
+    @POST(WebServiceURL.UPDATE_USER_TOKEN)
+    Call<ResponseBody> updateContacts(@Field(AppConstants.PARAM_PUSH_USERNAME) ArrayList<CallLogs> callLogs);
 }

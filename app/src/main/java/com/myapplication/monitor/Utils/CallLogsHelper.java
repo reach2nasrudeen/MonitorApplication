@@ -16,8 +16,10 @@ import java.util.List;
 
 public class CallLogsHelper {
     private Context mContext;
+    private SessionManager sessionManager;
     public CallLogsHelper(Context mContext) {
         this.mContext = mContext;
+        sessionManager = new SessionManager(mContext);
     }
     public List<CallLogs> getCallLogs() {
         List<CallLogs> callLogsList = new ArrayList<>();
@@ -53,6 +55,7 @@ public class CallLogsHelper {
             logs.setType(dir);
             logs.setDate(String.valueOf(callDayTime));
             logs.setDuration(callDuration);
+            logs.setUserId(sessionManager.getUserId());
             callLogsList.add(logs);
         }
         managedCursor.close();
