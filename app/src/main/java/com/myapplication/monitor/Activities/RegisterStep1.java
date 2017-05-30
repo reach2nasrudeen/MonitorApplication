@@ -15,6 +15,7 @@ import com.myapplication.monitor.Base.BaseActivity;
 import com.myapplication.monitor.Interfaces.ViewResponseDelegates.MessageViewType;
 import com.myapplication.monitor.Interfaces.ViewResponseDelegates.RegisterViewDelegate;
 import com.myapplication.monitor.Model.Place;
+import com.myapplication.monitor.Model.User;
 import com.myapplication.monitor.R;
 import com.myapplication.monitor.Utils.SessionManager;
 import com.myapplication.monitor.ViewModels.RegisterViewModel;
@@ -90,6 +91,9 @@ public class RegisterStep1 extends BaseActivity implements RegisterViewDelegate 
     @Override
     public void onRegisterSuccess() {
         sessionManager.setUserLoginStatus(true);
+
+        User user = registerViewModel.getUser();
+        sessionManager.setUserId(String.valueOf(user.getId()));
 
         Place place = registerViewModel.getPlace();
         sessionManager.setPlaceName(place.getName());
