@@ -8,15 +8,16 @@ import com.myapplication.monitor.Model.Realm.ContactsRealm;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by Mohamed on 05/29/2017.
  */
 
 public class ContactsDao {
-    private final String TAG = CallDao.class.getSimpleName();
+    private final String TAG = ContactsDao.class.getSimpleName();
 
-    public void storeOrUpdateCallsList(final List<ContactsRealm> contactsRealmList, final DaoResponse callback) {
+    public void storeOrUpdateContactsList(final List<ContactsRealm> contactsRealmList, final DaoResponse callback) {
         final Realm realm = Realm.getDefaultInstance();
 
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -74,5 +75,16 @@ public class ContactsDao {
         realm.close();
 
         return callsRealmList;
+    }
+
+    public void deleteContacts() {
+        final Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<ContactsRealm> result = realm.where(ContactsRealm.class).findAll();
+                result.deleteAllFromRealm();
+            }
+        });
     }
 }

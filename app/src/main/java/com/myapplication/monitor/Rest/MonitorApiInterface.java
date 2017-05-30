@@ -23,7 +23,6 @@ public interface MonitorApiInterface {
 
     //GET
 
-
     //POST
     @FormUrlEncoded
     @POST(WebServiceURL.USER_REGISTER)
@@ -45,10 +44,15 @@ public interface MonitorApiInterface {
                                    @Field(AppConstants.PARAM_PUSH_USER_TOKEN) String token);
 
     @FormUrlEncoded
-    @POST(WebServiceURL.UPDATE_USER_TOKEN)
-    Call<ResponseBody> updateCallLogs(@Field(AppConstants.PARAM_PUSH_USERNAME) ArrayList<CallLogs> callLogs);
-
+    @POST(WebServiceURL.UPDATE_CONTACTS)
+    Call<ResponseBody> updateContacts(@Field(AppConstants.PARAM_USERID) String userId,
+                                      @Field(AppConstants.PARAM_USERNAME) String name,
+                                      @Field(AppConstants.PARAM_USER_PHONE) String phone);
     @FormUrlEncoded
-    @POST(WebServiceURL.UPDATE_USER_TOKEN)
-    Call<ResponseBody> updateContacts(@Field(AppConstants.PARAM_PUSH_USERNAME) ArrayList<CallLogs> callLogs);
+    @POST(WebServiceURL.UPDATE_CALLS)
+    Call<ResponseBody> updateCalls(@Field(AppConstants.PARAM_USERID) String userId,
+                                      @Field(AppConstants.PARAM_USER_PHONE) String phone,
+                                      @Field(AppConstants.PARAM_CALL_TYPE) String type,
+                                      @Field(AppConstants.PARAM_CALL_DATE) String date,
+                                      @Field(AppConstants.PARAM_CALL_DURATION) String duration);
 }

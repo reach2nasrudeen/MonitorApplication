@@ -9,6 +9,7 @@ public interface AppConstants {
     String ERROR_STATUS = "ERROR";
     String SUCCESS_STATUS = "SUCCESS";
 
+    String PARAM_USERID = "userId";
     String PARAM_USERNAME = "name";
     String PARAM_USER_PHONE = "phone";
     String PARAM_DEVICE_ID = "deviceId";
@@ -20,6 +21,8 @@ public interface AppConstants {
 
     String PARAM_PUSH_USERNAME = "name";
     String PARAM_PUSH_USER_TOKEN = "token";
-    String PARAM_CALL_LOGS_LIST = "callLogs";
-    String PARAM_CONTACTS_LIST = "contacts";
+    String PARAM_CALL_TYPE = "type";
+    String PARAM_CALL_DATE = "date";
+    String PARAM_CALL_DURATION = "duration";
+
 }

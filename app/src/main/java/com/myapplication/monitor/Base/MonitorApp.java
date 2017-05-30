@@ -6,6 +6,9 @@ import android.content.Context;
 import com.myapplication.monitor.Rest.MonitorApiClient;
 import com.myapplication.monitor.Rest.MonitorApiInterface;
 import com.myapplication.monitor.Utils.SessionManager;
+
+import io.realm.Realm;
+
 /**
  * Created by Mohamed on 05/14/2017.
  */
@@ -24,6 +27,7 @@ public class MonitorApp extends Application {
         mContext = getApplicationContext();
         mMonitorApiClient = new MonitorApiClient();
         mSharedPreferences = new SessionManager(this);
+        Realm.init(this);
     }
 
     public static MonitorApp getApp() {

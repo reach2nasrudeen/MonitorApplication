@@ -4,10 +4,12 @@ import android.util.Log;
 
 import com.myapplication.monitor.DataManager.callbacks.DaoResponse;
 import com.myapplication.monitor.Model.Realm.CallsRealm;
+import com.myapplication.monitor.Model.Realm.ContactsRealm;
 
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by Mohamed on 05/29/2017.
@@ -73,5 +75,16 @@ public class CallDao {
         realm.close();
 
         return callsRealmList;
+    }
+
+    public void deleteCalls() {
+        final Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<CallsRealm> result = realm.where(CallsRealm.class).findAll();
+                result.deleteAllFromRealm();
+            }
+        });
     }
 }
