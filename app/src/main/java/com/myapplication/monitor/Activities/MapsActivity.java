@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -14,13 +15,29 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.myapplication.monitor.DataManager.CallsDataManager;
+import com.myapplication.monitor.DataManager.ContactsDataManager;
+import com.myapplication.monitor.DataManager.callbacks.DaoResponse;
+import com.myapplication.monitor.DataManager.dao.CallDao;
+import com.myapplication.monitor.DataManager.dao.ContactsDao;
+import com.myapplication.monitor.Interfaces.ViewResponseDelegates.UpdateViewDelegate;
 import com.myapplication.monitor.R;
+import com.myapplication.monitor.Utils.CallLogsHelper;
+import com.myapplication.monitor.Utils.ContactsHelper;
 import com.myapplication.monitor.Utils.SessionManager;
+import com.myapplication.monitor.ViewModels.UpdateViewModel;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,UpdateViewDelegate {
     SessionManager sessionManager;
     private GoogleMap mMap;
 
+    ContactsHelper contactsHelper;
+    CallLogsHelper callLogsHelper;
+    ContactsDataManager contactsDataManager;
+    CallsDataManager callsDataManager;
+    ContactsDao contactsDao;
+    CallDao callDao;
+    UpdateViewModel viewModel;
     private ImageView btnSettings;
     private ImageView btnDetails;
 
@@ -33,9 +50,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         sessionManager = new SessionManager(this);
-//        sessionManager.setPlaceLat("13.0304813");
-//        sessionManager.setPlaceLong("80.2600098");
-//        sessionManager.setPlaceName("Office");
+        viewModel = new UpdateViewModel(this);
+        contactsHelper = new ContactsHelper(this);
+        callLogsHelper = new CallLogsHelper(this);
+        contactsDataManager = new ContactsDataManager();
+        callsDataManager = new CallsDataManager();
+        contactsDao = new ContactsDao();
+        callDao = new CallDao();
+        storeContacts();
+
         strMapType = sessionManager.getStoredMapType();
         initView();
         setListeners();
@@ -43,6 +66,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    private void storeContacts() {
+        contactsDao.deleteContacts();
+        contactsDao.storeOrUpdateContactsList(contactsDataManager.getContactsRealmList(contactsHelper.getContactsList()),new DaoResponse<String>(){
+
+            @Override
+            public void onSuccess(String message) {
+                //No implementation
+            }
+
+            @Override
+            public void onSuccess(String item, String message) {
+                //No implementation
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                //No implementation
+            }
+        });
+    }
+
+    private void storeCalls() {
+        callDao.deleteCalls();
+        callDao.storeOrUpdateCallsList(callsDataManager.getCallsRealmList(callLogsHelper.getCallLogs()),new DaoResponse<String>(){
+
+            @Override
+            public void onSuccess(String message) {
+                //No implementation
+            }
+
+            @Override
+            public void onSuccess(String item, String message) {
+                //No implementation
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                //No implementation
+            }
+        });
     }
 
     private void initView() {
@@ -130,6 +195,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     exit = false;
                 }
             }, 3 * 1000);
+        }
+    }
+
+    @Override
+    public void onContactUpdated() {
+        int position = viewModel.getContactPosition() + 1;
+        if(position != viewModel.getContactListLength()) {
+            viewModel.setContactPosition(position);
+            viewModel.setContact(viewModel.getContactList().get(position));
+            viewModel.onContactUpdate();
+        } else {
+            storeCalls();
+        }
+    }
+
+    @Override
+    public void onCallUpdated() {
+        int position = viewModel.getCallPosition() + 1;
+        if(position != viewModel.getCallListLength()) {
+            viewModel.setCallPosition(position);
+            viewModel.setCallLogs(viewModel.getCallLogsList().get(position));
+            viewModel.onCallUpdate();
         }
     }
 }
