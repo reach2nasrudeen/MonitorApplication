@@ -1,6 +1,7 @@
 package com.myapplication.monitor.ViewModels;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.myapplication.monitor.DataManager.RegisterDataManager;
@@ -38,15 +39,18 @@ public class RegisterViewModel extends RegisterBaseViewModel implements Register
 
         if (isValid()) {
             registerViewDelegate.showProgressView(true);
-            registerDataManager.doRegister(getUser(), new DataResponse<Place>() {
+            registerDataManager.doRegister(getUser(), new DataResponse<String[]>() {
                         @Override
                         public void onSuccess(String message) {
                             //No implementation
                         }
 
                         @Override
-                        public void onSuccess(Place item, String message) {
-                            setPlace(item);
+                        public void onSuccess(String[] item, String message) {
+                            setPlace(new Gson().fromJson(item[1],Place.class));
+                            User user = getUser();
+                            user.setId(item[0]);
+                            setUser(user);
                             registerViewDelegate.showProgressView(false);
                             registerViewDelegate.onRegisterSuccess();
                         }
@@ -84,6 +88,7 @@ public class RegisterViewModel extends RegisterBaseViewModel implements Register
 
             @Override
             public void onSuccess(String[] item, String message) {
+                Log.e("Status",message);
                 setUser(new Gson().fromJson(item[0],User.class));
                 setPlace(new Gson().fromJson(item[1],Place.class));
                 registerViewDelegate.showProgressView(false);

@@ -24,6 +24,7 @@ import com.myapplication.monitor.ViewModels.RegisterViewModel;
 
 public class RegisterActivity extends BaseActivity implements RegisterViewDelegate {
     EditText textName;
+    EditText textPhone;
     Button btnProceed;
     String phone;
     private Context mContext;
@@ -50,7 +51,10 @@ public class RegisterActivity extends BaseActivity implements RegisterViewDelega
 
     private void initView() {
         textName = (EditText) findViewById(R.id.textName);
+        textPhone = (EditText) findViewById(R.id.textPhone);
         btnProceed = (Button) findViewById(R.id.btnProceed);
+        textPhone.setText(phone);
+        textPhone.setEnabled(false);
     }
 
     private void initDialog() {
@@ -114,6 +118,8 @@ public class RegisterActivity extends BaseActivity implements RegisterViewDelega
     public void onRegisterSuccess() {
         sessionManager.setUserLoginStatus(true);
 
+        User user = registerViewModel.getUser();
+        sessionManager.setUserId(user.getId());
         Place place = registerViewModel.getPlace();
         sessionManager.setPlaceName(place.getName());
         sessionManager.setPlaceAddress(place.getAddress());
@@ -128,7 +134,7 @@ public class RegisterActivity extends BaseActivity implements RegisterViewDelega
 
     @Override
     public void launchRegistration() {
-        // No implementation
+        initActivity(new Intent(mContext, RegisterStep1.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     private void initActivity(Intent intent) {

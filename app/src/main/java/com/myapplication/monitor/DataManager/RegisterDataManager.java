@@ -56,7 +56,7 @@ public class RegisterDataManager implements AppConstants {
                         if(jsonArray.length() != 0) {
                             JSONObject userObject = jsonArray.getJSONObject(0);
                             User user = new User();
-                            user.setId(Integer.parseInt(userObject.getString("id")));
+                            user.setId(userObject.getString("id"));
                             user.setPhone(userObject.getString("phone"));
                             user.setName(userObject.getString("name"));
                             user.setDeviceBrand(userObject.getString("deviceBrand"));
@@ -94,7 +94,7 @@ public class RegisterDataManager implements AppConstants {
             }
         });
     }
-    public void doRegister(User user, final DataResponse<Place> dataResponse) {
+    public void doRegister(User user, final DataResponse<String[]> dataResponse) {
 
         Call<ResponseBody> timeLogResponseCall = service.registerUser(user.getName(),
                 user.getPhone(),
@@ -112,7 +112,7 @@ public class RegisterDataManager implements AppConstants {
                 if (statusCode == 200) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
-
+                        String userId = jsonObject.getString("userId");
                         JSONArray jsonArray = jsonObject.getJSONArray("place");
                         JSONObject placeObject = jsonArray.getJSONObject(0);
                         Place place = new Place();
@@ -123,7 +123,7 @@ public class RegisterDataManager implements AppConstants {
                         place.setLongitude(Double.parseDouble(placeObject.getString("longitude")));
                         place.setRadius(Integer.parseInt(placeObject.getString("radius")));
                         Log.e("Status", "Register Success");
-                        dataResponse.onSuccess(place, "Register Success");
+                        dataResponse.onSuccess(new String[]{userId,new Gson().toJson(place)}, "Register Success");
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }

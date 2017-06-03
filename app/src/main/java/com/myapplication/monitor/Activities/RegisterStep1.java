@@ -93,7 +93,7 @@ public class RegisterStep1 extends BaseActivity implements RegisterViewDelegate 
         sessionManager.setUserLoginStatus(true);
 
         User user = registerViewModel.getUser();
-        sessionManager.setUserId(String.valueOf(user.getId()));
+        sessionManager.setUserId(user.getId());
 
         Place place = registerViewModel.getPlace();
         sessionManager.setPlaceName(place.getName());

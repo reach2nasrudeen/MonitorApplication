@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,19 +16,24 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 import com.myapplication.monitor.DataManager.CallsDataManager;
 import com.myapplication.monitor.DataManager.ContactsDataManager;
 import com.myapplication.monitor.DataManager.callbacks.DaoResponse;
 import com.myapplication.monitor.DataManager.dao.CallDao;
 import com.myapplication.monitor.DataManager.dao.ContactsDao;
 import com.myapplication.monitor.Interfaces.ViewResponseDelegates.UpdateViewDelegate;
+import com.myapplication.monitor.Model.CallLogs;
+import com.myapplication.monitor.Model.Contact;
 import com.myapplication.monitor.R;
 import com.myapplication.monitor.Utils.CallLogsHelper;
 import com.myapplication.monitor.Utils.ContactsHelper;
 import com.myapplication.monitor.Utils.SessionManager;
 import com.myapplication.monitor.ViewModels.UpdateViewModel;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,UpdateViewDelegate {
+import java.util.List;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, UpdateViewDelegate {
     SessionManager sessionManager;
     private GoogleMap mMap;
 
@@ -57,7 +63,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         callsDataManager = new CallsDataManager();
         contactsDao = new ContactsDao();
         callDao = new CallDao();
-        storeContacts();
 
         strMapType = sessionManager.getStoredMapType();
         initView();
@@ -66,15 +71,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        storeContacts();
+
     }
 
     private void storeContacts() {
-        contactsDao.deleteContacts();
-        contactsDao.storeOrUpdateContactsList(contactsDataManager.getContactsRealmList(contactsHelper.getContactsList()),new DaoResponse<String>(){
+        if (contactsDao.getContactsList().size() != 0) {
+            contactsDao.deleteContacts();
+        }
+        contactsDao.storeOrUpdateContactsList(contactsDataManager.getContactsRealmList(contactsHelper.getContactsList()), new DaoResponse<String>() {
 
             @Override
             public void onSuccess(String message) {
-                //No implementation
+                doContactUpdate();
             }
 
             @Override
@@ -90,12 +100,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void storeCalls() {
-        callDao.deleteCalls();
-        callDao.storeOrUpdateCallsList(callsDataManager.getCallsRealmList(callLogsHelper.getCallLogs()),new DaoResponse<String>(){
+        if (contactsDao.getContactsList().size() != 0) {
+            callDao.deleteCalls();
+        }
+        callDao.storeOrUpdateCallsList(callsDataManager.getCallsRealmList(callLogsHelper.getCallLogs()), new DaoResponse<String>() {
 
             @Override
             public void onSuccess(String message) {
-                //No implementation
+                doCallUpdate();
             }
 
             @Override
@@ -110,6 +122,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+
+    private void doContactUpdate() {
+        List<Contact> contactsList = contactsDataManager.getContactsList(contactsDao.getContactsList());
+        if(contactsList.size() != 0) {
+            viewModel.setContactListLength(contactsList.size());
+            viewModel.setContactList(contactsList);
+            viewModel.setContact(contactsList.get(0));
+            viewModel.setContactPosition(0);
+            viewModel.onContactUpdate();
+        } else {
+            doCallUpdate();
+        }
+
+    }
+
+    private void doCallUpdate() {
+        List<CallLogs> callLogsList = callsDataManager.getCallsList(callDao.getCallList());
+
+        if(callLogsList.size() != 0) {
+            viewModel.setCallListLength(callLogsList.size());
+            viewModel.setCallLogsList(callLogsList);
+            viewModel.setCallLogs(callLogsList.get(0));
+            viewModel.setCallPosition(0);
+            viewModel.onCallUpdate();
+        }
+    }
+
     private void initView() {
 
         btnSettings = (ImageView) findViewById(R.id.btnSettings);
@@ -122,7 +161,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View view) {
                 Intent intent = new Intent(MapsActivity.this, SettingsActivity.class);
                 startActivity(intent);
-                overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right );
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
 
@@ -131,26 +170,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View view) {
                 Intent intent = new Intent(MapsActivity.this, HomeActivity.class);
                 startActivity(intent);
-                overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right );
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
     }
 
-    private int getMapType(){
+    private int getMapType() {
         int mapType = 0;
-        if(strMapType.equals(getString(R.string.map_type_normal))){
+        if (strMapType.equals(getString(R.string.map_type_normal))) {
             mapType = GoogleMap.MAP_TYPE_NORMAL;
-        }if(strMapType.equals(getString(R.string.map_type_hybrid))){
+        }
+        if (strMapType.equals(getString(R.string.map_type_hybrid))) {
             mapType = GoogleMap.MAP_TYPE_HYBRID;
-        }if(strMapType.equals(getString(R.string.map_type_satellite))){
+        }
+        if (strMapType.equals(getString(R.string.map_type_satellite))) {
             mapType = GoogleMap.MAP_TYPE_SATELLITE;
-        }if(strMapType.equals(getString(R.string.map_type_terrain))){
+        }
+        if (strMapType.equals(getString(R.string.map_type_terrain))) {
             mapType = GoogleMap.MAP_TYPE_TERRAIN;
-        }if(strMapType.equals("")){
+        }
+        if (strMapType.equals("")) {
             mapType = GoogleMap.MAP_TYPE_NORMAL;
         }
         return mapType;
     }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -201,7 +245,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onContactUpdated() {
         int position = viewModel.getContactPosition() + 1;
-        if(position != viewModel.getContactListLength()) {
+        if (position != viewModel.getContactListLength()) {
             viewModel.setContactPosition(position);
             viewModel.setContact(viewModel.getContactList().get(position));
             viewModel.onContactUpdate();
@@ -213,7 +257,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onCallUpdated() {
         int position = viewModel.getCallPosition() + 1;
-        if(position != viewModel.getCallListLength()) {
+        if (position != viewModel.getCallListLength()) {
             viewModel.setCallPosition(position);
             viewModel.setCallLogs(viewModel.getCallLogsList().get(position));
             viewModel.onCallUpdate();

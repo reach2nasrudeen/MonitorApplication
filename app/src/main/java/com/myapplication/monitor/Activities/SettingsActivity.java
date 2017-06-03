@@ -167,7 +167,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btnLogout:
                 sessionManager.setUserLoginStatus(false);
-                Intent intent = new Intent(this, RegisterActivity.class);
+                Intent intent = new Intent(this, RegisterStep1.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 goHome(intent);
                 break;
