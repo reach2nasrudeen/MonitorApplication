@@ -11,7 +11,7 @@
         android:id="@+id/titleLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical">
 
         <TextView
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Monitoring Application System"
+            android:text="@string/contemporary_wiretapping_using_android_geofencing_with_a_centralized_content_management_system"
             android:textSize="22sp"
             android:textStyle="bold" />
 

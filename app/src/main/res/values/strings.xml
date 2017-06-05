@@ -18,6 +18,8 @@
     <string name="map_type_terrain">Terrain</string>
     <string name="logout">Logout</string>
     <string name="place">Place Name :</string>
+    <string name="by_jayapriya">by Jayapriya</string>
+    <string name="contemporary_wiretapping_using_android_geofencing_with_a_centralized_content_management_system">Contemporary Wiretapping using Android Geofencing with a Centralized Content Management System</string>
 
     <integer name="map_type_normal">1</integer>
     <integer name="map_type_hybrid">2</integer>
