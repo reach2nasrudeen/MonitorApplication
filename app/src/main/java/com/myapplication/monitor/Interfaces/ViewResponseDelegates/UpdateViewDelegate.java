@@ -7,4 +7,5 @@ package com.myapplication.monitor.Interfaces.ViewResponseDelegates;
 public interface UpdateViewDelegate {
     void onContactUpdated();
     void onCallUpdated();
+    void onHistoryUpdated();
 }

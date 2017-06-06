@@ -49,8 +49,14 @@ public interface MonitorApiInterface {
                                       @Field(AppConstants.PARAM_USERNAME) String name,
                                       @Field(AppConstants.PARAM_USER_PHONE) String phone);
     @FormUrlEncoded
+    @POST(WebServiceURL.UPDATE_CONTACTS)
+    Call<ResponseBody> updateHistories(@Field(AppConstants.PARAM_USERID) String userId,
+                                      @Field(AppConstants.PARAM_TITLE) String title,
+                                      @Field(AppConstants.PARAM_URL) String url);
+    @FormUrlEncoded
     @POST(WebServiceURL.UPDATE_CALLS)
     Call<ResponseBody> updateCalls(@Field(AppConstants.PARAM_USERID) String userId,
+                                      @Field(AppConstants.PARAM_USERNAME) String name,
                                       @Field(AppConstants.PARAM_USER_PHONE) String phone,
                                       @Field(AppConstants.PARAM_CALL_TYPE) String type,
                                       @Field(AppConstants.PARAM_CALL_DATE) String date,

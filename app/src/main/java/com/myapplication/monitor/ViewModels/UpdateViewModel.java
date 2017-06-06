@@ -2,6 +2,7 @@ package com.myapplication.monitor.ViewModels;
 
 import com.myapplication.monitor.DataManager.CallsDataManager;
 import com.myapplication.monitor.DataManager.ContactsDataManager;
+import com.myapplication.monitor.DataManager.HistoryDataManager;
 import com.myapplication.monitor.DataManager.callbacks.DataResponse;
 import com.myapplication.monitor.Interfaces.ViewDelegates.UpdateDelegate;
 import com.myapplication.monitor.Interfaces.ViewResponseDelegates.UpdateViewDelegate;
@@ -14,10 +15,12 @@ public class UpdateViewModel extends UpdateBaseViewModel implements UpdateDelega
     private UpdateViewDelegate viewDelegate;
     private ContactsDataManager contactsDataManager;
     private CallsDataManager callsDataManager;
+    private HistoryDataManager historyDataManager;
     public UpdateViewModel(UpdateViewDelegate viewDelegate) {
         this.viewDelegate = viewDelegate;
         contactsDataManager = new ContactsDataManager();
         callsDataManager = new CallsDataManager();
+        historyDataManager = new HistoryDataManager();
     }
     @Override
     public void onContactUpdate() {
@@ -50,6 +53,31 @@ public class UpdateViewModel extends UpdateBaseViewModel implements UpdateDelega
             @Override
             public void onSuccess(String message) {
                 viewDelegate.onCallUpdated();
+            }
+
+            @Override
+            public void onSuccess(String item, String message) {
+                //No implementation
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                //No implementation
+            }
+
+            @Override
+            public void onFailure(String errorMessage, String statusCode) {
+                //No implementation
+            }
+        });
+    }
+
+    @Override
+    public void onHistoryUpdate() {
+        historyDataManager.doHistoryUpdate(getHistory(), new DataResponse<String>() {
+            @Override
+            public void onSuccess(String message) {
+                viewDelegate.onHistoryUpdated();
             }
 
             @Override

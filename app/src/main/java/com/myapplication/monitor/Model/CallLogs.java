@@ -5,11 +5,20 @@ package com.myapplication.monitor.Model;
  */
 
 public class CallLogs {
+    private String name;
     private String userId;
     private String phone;
     private String type;
     private String duration;
     private String date;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getUserId() {
         return userId;

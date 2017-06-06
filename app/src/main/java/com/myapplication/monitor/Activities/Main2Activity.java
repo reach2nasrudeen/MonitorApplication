@@ -46,8 +46,7 @@ public class Main2Activity extends AppCompatActivity implements UpdateViewDelega
         callDao = new CallDao();
         textView = (TextView) findViewById(R.id.textStatus);
 
-//        storeCalls();
-        showHistory();
+        storeCalls();
     }
 
     private void showHistory() {
@@ -126,6 +125,7 @@ public class Main2Activity extends AppCompatActivity implements UpdateViewDelega
         List<CallLogs> callLogsList = callsDataManager.getCallsList(callDao.getCallList());
         for(CallLogs callLogs : callLogsList) {
             textView.append("\n\nPhone : "+callLogs.getPhone()
+                    +"\nName : "+callLogs.getName()
                     +"\nType : "+callLogs.getType()
                     +"\nDuration : "+callLogs.getDuration()
                     +"\nDate : "+callLogs.getDate());
@@ -159,6 +159,16 @@ public class Main2Activity extends AppCompatActivity implements UpdateViewDelega
             viewModel.setCallPosition(position);
             viewModel.setCallLogs(viewModel.getCallLogsList().get(position));
             viewModel.onCallUpdate();
+        }
+    }
+
+    @Override
+    public void onHistoryUpdated() {
+        int position = viewModel.getHistoryPosition() + 1;
+        if (position != viewModel.getHistoryListLength()) {
+            viewModel.setHistoryPosition(position);
+            viewModel.setHistory(viewModel.getHistoryList().get(position));
+            viewModel.onHistoryUpdate();
         }
     }
 }

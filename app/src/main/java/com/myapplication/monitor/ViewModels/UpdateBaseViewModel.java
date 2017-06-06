@@ -1,5 +1,6 @@
 package com.myapplication.monitor.ViewModels;
 
+import com.myapplication.monitor.Model.BrowserHistory;
 import com.myapplication.monitor.Model.CallLogs;
 import com.myapplication.monitor.Model.Contact;
 
@@ -12,12 +13,48 @@ import java.util.List;
 public class UpdateBaseViewModel {
     private Contact contact;
     private CallLogs callLogs;
+    private BrowserHistory history;
     private int contactPosition;
     private int callPosition;
+    private int historyPosition;
     private int contactListLength;
     private int callListLength;
+    private int historyListLength;
     private List<Contact> contactList;
     private List<CallLogs> callLogsList;
+    private List<BrowserHistory> historyList;
+
+    public BrowserHistory getHistory() {
+        return history;
+    }
+
+    public void setHistory(BrowserHistory history) {
+        this.history = history;
+    }
+
+    public int getHistoryPosition() {
+        return historyPosition;
+    }
+
+    public void setHistoryPosition(int historyPosition) {
+        this.historyPosition = historyPosition;
+    }
+
+    public int getHistoryListLength() {
+        return historyListLength;
+    }
+
+    public void setHistoryListLength(int historyListLength) {
+        this.historyListLength = historyListLength;
+    }
+
+    public List<BrowserHistory> getHistoryList() {
+        return historyList;
+    }
+
+    public void setHistoryList(List<BrowserHistory> historyList) {
+        this.historyList = historyList;
+    }
 
     public int getContactListLength() {
         return contactListLength;

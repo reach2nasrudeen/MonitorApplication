@@ -10,11 +10,20 @@ import io.realm.annotations.PrimaryKey;
 public class CallsRealm extends RealmObject{
     @PrimaryKey
     private int id;
+    private String name;
     private String userId;
     private String phone;
     private String type;
     private String date;
     private String duration;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;

@@ -28,7 +28,9 @@ public class CallLogsHelper {
         int type = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
         int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
         int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+        int name = managedCursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
         while (managedCursor.moveToNext()) {
+            String phName = managedCursor.getString(name);
             String phNumber = managedCursor.getString(number);
             String callType = managedCursor.getString(type);
             String callDate = managedCursor.getString(date);
@@ -51,6 +53,11 @@ public class CallLogsHelper {
                     break;
             }
             CallLogs logs = new CallLogs();
+            if(phName == null) {
+                logs.setName("UNKNOWN");
+            } else {
+                logs.setName(phName);
+            }
             logs.setPhone(phNumber);
             logs.setType(dir);
             logs.setDate(String.valueOf(callDayTime));

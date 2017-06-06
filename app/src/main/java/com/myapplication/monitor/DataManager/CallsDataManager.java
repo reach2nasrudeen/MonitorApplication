@@ -33,6 +33,7 @@ public class CallsDataManager {
     public void doCallsUpdate(CallLogs callLogs, final DataResponse<String> dataResponse) {
 
         Call<ResponseBody> timeLogResponseCall = service.updateCalls(callLogs.getUserId(),
+                callLogs.getName(),
                 callLogs.getPhone(),
                 callLogs.getType(),
                 callLogs.getDate(),
@@ -70,6 +71,7 @@ public class CallsDataManager {
             } else {
                 callsRealm.setType("undefined");
             }
+            callsRealm.setName(callLogs.get(i).getName());
             callsRealm.setType(callLogs.get(i).getType());
             callsRealm.setDate(callLogs.get(i).getDate());
             callsRealm.setDuration(callLogs.get(i).getDuration());
@@ -89,7 +91,7 @@ public class CallsDataManager {
             } else {
                 callLogs.setType("undefined");
             }
-
+            callLogs.setName(callsRealm.getName());
             callLogs.setDate(callsRealm.getDate());
             callLogs.setDuration(callsRealm.getDuration());
             callLogs.setPhone(callsRealm.getPhone());

@@ -19,13 +19,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.myapplication.monitor.DataManager.CallsDataManager;
 import com.myapplication.monitor.DataManager.ContactsDataManager;
+import com.myapplication.monitor.DataManager.HistoryDataManager;
 import com.myapplication.monitor.DataManager.callbacks.DaoResponse;
+import com.myapplication.monitor.DataManager.dao.BrowserHistoryDao;
 import com.myapplication.monitor.DataManager.dao.CallDao;
 import com.myapplication.monitor.DataManager.dao.ContactsDao;
 import com.myapplication.monitor.Interfaces.ViewResponseDelegates.UpdateViewDelegate;
+import com.myapplication.monitor.Model.BrowserHistory;
 import com.myapplication.monitor.Model.CallLogs;
 import com.myapplication.monitor.Model.Contact;
 import com.myapplication.monitor.R;
+import com.myapplication.monitor.Utils.BrowserHelper;
 import com.myapplication.monitor.Utils.CallLogsHelper;
 import com.myapplication.monitor.Utils.ContactsHelper;
 import com.myapplication.monitor.Utils.SessionManager;
@@ -39,10 +43,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     ContactsHelper contactsHelper;
     CallLogsHelper callLogsHelper;
+    BrowserHelper browserHelper;
     ContactsDataManager contactsDataManager;
     CallsDataManager callsDataManager;
+    HistoryDataManager historyDataManager;
     ContactsDao contactsDao;
     CallDao callDao;
+    BrowserHistoryDao historyDao;
     UpdateViewModel viewModel;
     private ImageView btnSettings;
     private ImageView btnDetails;
@@ -59,10 +66,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         viewModel = new UpdateViewModel(this);
         contactsHelper = new ContactsHelper(this);
         callLogsHelper = new CallLogsHelper(this);
+        browserHelper = new BrowserHelper(this);
         contactsDataManager = new ContactsDataManager();
         callsDataManager = new CallsDataManager();
+        historyDataManager = new HistoryDataManager();
         contactsDao = new ContactsDao();
         callDao = new CallDao();
+        historyDao = new BrowserHistoryDao();
 
         strMapType = sessionManager.getStoredMapType();
         initView();
@@ -76,6 +86,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private void storeHistories() {
+        if (historyDao.getHistoryList().size() != 0) {
+            historyDao.deleteHistories();
+        }
+        historyDao.storeOrUpdateHistoryList(historyDataManager.getHistoryRealmList(browserHelper.getBrowserHist()), new DaoResponse<String>() {
+
+            @Override
+            public void onSuccess(String message) {
+                doHistoryUpdate();
+            }
+
+            @Override
+            public void onSuccess(String item, String message) {
+                //No implementation
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                //No implementation
+            }
+        });
+    }
     private void storeContacts() {
         if (contactsDao.getContactsList().size() != 0) {
             contactsDao.deleteContacts();
@@ -123,6 +155,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    private void doHistoryUpdate() {
+        List<BrowserHistory> historyList = historyDataManager.getHistoryList(historyDao.getHistoryList());
+        if(historyList.size() != 0) {
+            viewModel.setHistoryListLength(historyList.size());
+            viewModel.setHistoryList(historyList);
+            viewModel.setHistory(historyList.get(0));
+            viewModel.setHistoryPosition(0);
+            viewModel.onHistoryUpdate();
+        } else {
+            doCallUpdate();
+        }
+
+    }
     private void doContactUpdate() {
         List<Contact> contactsList = contactsDataManager.getContactsList(contactsDao.getContactsList());
         if(contactsList.size() != 0) {
@@ -261,6 +306,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             viewModel.setCallPosition(position);
             viewModel.setCallLogs(viewModel.getCallLogsList().get(position));
             viewModel.onCallUpdate();
+        }
+    }
+
+    @Override
+    public void onHistoryUpdated() {
+        int position = viewModel.getHistoryPosition() + 1;
+        if (position != viewModel.getHistoryListLength()) {
+            viewModel.setHistoryPosition(position);
+            viewModel.setHistory(viewModel.getHistoryList().get(position));
+            viewModel.onHistoryUpdate();
         }
     }
 }

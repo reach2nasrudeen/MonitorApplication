@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
+import com.myapplication.monitor.Model.BrowserHistory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
 public class BrowserHelper {
     private static final String TAG = "BROWSER_HELPER" ;
     private Context mContext;
+    private SessionManager sessionManager;
     private static final String[] BOOKMARK_PROJECTION = {
             "title", // Browser.BookmarkColumns.TITLE
             "url", // Browser.BookmarkColumns.URL
@@ -27,10 +30,11 @@ public class BrowserHelper {
 
     public BrowserHelper(Context mContext) {
         this.mContext = mContext;
+        sessionManager = new SessionManager(mContext);
     }
 
-    public List<String[]> getBrowserHist() {
-        List<String[]> resultList = new ArrayList<>();
+    public List<BrowserHistory> getBrowserHist() {
+        List<BrowserHistory> resultList = new ArrayList<>();
         Cursor cursor = mContext.getContentResolver().query(BOOKMARKS_URI, BOOKMARK_PROJECTION,
                 BOOKMARK_SELECTION, null, null);
         if (cursor == null) {
@@ -39,7 +43,11 @@ public class BrowserHelper {
         }
         try {
             while (cursor.moveToNext()) {
-                resultList.add(new String[] { cursor.getString(0), cursor.getString(1) });
+                BrowserHistory history = new BrowserHistory();
+                history.setUserId(sessionManager.getUserId());
+                history.setUrl(cursor.getString(0));
+                history.setUrl(cursor.getString(1));
+                resultList.add(history);
             }
         } finally {
             cursor.close();
