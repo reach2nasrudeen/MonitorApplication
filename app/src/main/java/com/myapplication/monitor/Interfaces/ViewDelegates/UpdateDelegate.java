@@ -8,4 +8,5 @@ public interface UpdateDelegate {
     void onContactUpdate();
     void onCallUpdate();
     void onHistoryUpdate();
+    void onSmsUpdate();
 }

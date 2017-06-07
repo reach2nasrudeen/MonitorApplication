@@ -45,7 +45,11 @@ public class BrowserHelper {
             while (cursor.moveToNext()) {
                 BrowserHistory history = new BrowserHistory();
                 history.setUserId(sessionManager.getUserId());
-                history.setUrl(cursor.getString(0));
+                if(cursor.getString(0).isEmpty()) {
+                    history.setTitle("UNKNOWN TITLE");
+                } else {
+                    history.setTitle(cursor.getString(0));
+                }
                 history.setUrl(cursor.getString(1));
                 resultList.add(history);
             }

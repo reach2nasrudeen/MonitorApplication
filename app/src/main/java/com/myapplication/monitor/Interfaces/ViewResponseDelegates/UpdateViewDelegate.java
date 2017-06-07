@@ -8,4 +8,5 @@ public interface UpdateViewDelegate {
     void onContactUpdated();
     void onCallUpdated();
     void onHistoryUpdated();
+    void onSmsUpdated();
 }

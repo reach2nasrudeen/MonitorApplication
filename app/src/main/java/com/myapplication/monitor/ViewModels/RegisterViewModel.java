@@ -91,6 +91,7 @@ public class RegisterViewModel extends RegisterBaseViewModel implements Register
                 Log.e("Status",message);
                 setUser(new Gson().fromJson(item[0],User.class));
                 setPlace(new Gson().fromJson(item[1],Place.class));
+
                 registerViewDelegate.showProgressView(false);
                 registerViewDelegate.onRegisterSuccess();
             }

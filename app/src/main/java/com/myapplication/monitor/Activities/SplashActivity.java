@@ -39,8 +39,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     public void registerFCM(){
-        initActivity(new Intent(mContext, Main2Activity.class));
-        /*boolean InternetStatus = Utils.isInternetConnected(this);
+//        initActivity(new Intent(mContext, Main2Activity.class));
+        boolean InternetStatus = Utils.isInternetConnected(this);
         if(InternetStatus){
             FirebaseInstanceId.getInstance().getToken();
             new Handler().postDelayed(new Runnable() {
@@ -69,7 +69,7 @@ public class SplashActivity extends BaseActivity {
                     }
                 }
             }, 2*1000); // wait for 2 seconds
-        }*/
+        }
     }
 
     private void initActivity(Intent intent) {

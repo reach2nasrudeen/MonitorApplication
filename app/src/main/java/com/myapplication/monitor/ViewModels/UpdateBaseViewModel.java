@@ -3,6 +3,7 @@ package com.myapplication.monitor.ViewModels;
 import com.myapplication.monitor.Model.BrowserHistory;
 import com.myapplication.monitor.Model.CallLogs;
 import com.myapplication.monitor.Model.Contact;
+import com.myapplication.monitor.Model.Sms;
 
 import java.util.List;
 
@@ -14,15 +15,54 @@ public class UpdateBaseViewModel {
     private Contact contact;
     private CallLogs callLogs;
     private BrowserHistory history;
+    private Sms sms;
+
     private int contactPosition;
     private int callPosition;
     private int historyPosition;
+    private int smsPosition;
+
     private int contactListLength;
     private int callListLength;
     private int historyListLength;
+    private int smsListLength;
+
     private List<Contact> contactList;
     private List<CallLogs> callLogsList;
     private List<BrowserHistory> historyList;
+    private List<Sms> smsList;
+
+    public Sms getSms() {
+        return sms;
+    }
+
+    public void setSms(Sms sms) {
+        this.sms = sms;
+    }
+
+    public int getSmsPosition() {
+        return smsPosition;
+    }
+
+    public void setSmsPosition(int smsPosition) {
+        this.smsPosition = smsPosition;
+    }
+
+    public int getSmsListLength() {
+        return smsListLength;
+    }
+
+    public void setSmsListLength(int smsListLength) {
+        this.smsListLength = smsListLength;
+    }
+
+    public List<Sms> getSmsList() {
+        return smsList;
+    }
+
+    public void setSmsList(List<Sms> smsList) {
+        this.smsList = smsList;
+    }
 
     public BrowserHistory getHistory() {
         return history;

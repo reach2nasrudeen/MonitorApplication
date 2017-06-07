@@ -188,4 +188,9 @@ public class Main2Activity extends AppCompatActivity implements UpdateViewDelega
             viewModel.onHistoryUpdate();
         }
     }
+
+    @Override
+    public void onSmsUpdated() {
+
+    }
 }

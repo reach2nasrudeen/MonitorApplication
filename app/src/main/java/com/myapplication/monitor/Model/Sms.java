@@ -5,12 +5,17 @@ package com.myapplication.monitor.Model;
  */
 
 public class Sms {
+    private String userId;
     private String _id;
     private String _address;
     private String _msg;
     private String _readState; //"0" for have not read sms and "1" for have read sms
     private String _time;
     private String _folderName;
+
+    public String getUserId() {
+        return userId;
+    }
 
     public String getId(){
         return _id;
@@ -31,6 +36,9 @@ public class Sms {
         return _folderName;
     }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public void setId(String id){
         _id = id;

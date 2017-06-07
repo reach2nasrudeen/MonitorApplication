@@ -12,6 +12,10 @@ public interface AppConstants {
     String PARAM_USERID = "userId";
     String PARAM_USERNAME = "name";
     String PARAM_USER_PHONE = "phone";
+    String PARAM_ADDRESS = "address";
+    String PARAM_MESSAGE = "message";
+    String PARAM_FOLDER = "folder";
+    String PARAM_SMSDATE = "smsdate";
     String PARAM_TITLE = "title";
     String PARAM_URL = "url";
     String PARAM_DEVICE_ID = "deviceId";

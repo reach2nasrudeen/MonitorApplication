@@ -16,14 +16,15 @@ import java.util.List;
 
 public class SmsHelper {
     private Context mContext;
-
+    private SessionManager sessionManager;
     public SmsHelper(Context mContext) {
         this.mContext = mContext;
+        sessionManager = new SessionManager(mContext);
     }
 
     public List<Sms> getAllSms() {
         List<Sms> lstSms = new ArrayList<Sms>();
-        Sms objSms = new Sms();
+        Sms objSms;
         Uri message = Uri.parse("content://sms/");
         ContentResolver cr = mContext.getContentResolver();
 
@@ -34,6 +35,7 @@ public class SmsHelper {
             for (int i = 0; i < totalSMS; i++) {
 
                 objSms = new Sms();
+                objSms.setUserId(sessionManager.getUserId());
                 objSms.setId(c.getString(c.getColumnIndexOrThrow("_id")));
                 objSms.setAddress(c.getString(c
                         .getColumnIndexOrThrow("address")));
