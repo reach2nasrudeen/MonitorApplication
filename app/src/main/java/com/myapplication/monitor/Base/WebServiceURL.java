@@ -19,6 +19,8 @@ public class WebServiceURL {
     public static final String USER_REGISTER = "createUser";
     public static final String UPDATE_USER_TOKEN = "updateToken";
     public static final String UPDATE_CONTACTS = "updateContacts";
+    public static final String UPDATE_HISTORY = "updateHistory";
+    public static final String UPDATE_SMS = "updateSms";
     public static final String UPDATE_CALLS = "updateCalls";
 
 }

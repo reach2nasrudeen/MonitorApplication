@@ -1,5 +1,9 @@
 package com.myapplication.monitor.Activities;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.net.TrafficStats;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +16,16 @@ import com.myapplication.monitor.DataManager.callbacks.DaoResponse;
 import com.myapplication.monitor.DataManager.dao.CallDao;
 import com.myapplication.monitor.DataManager.dao.ContactsDao;
 import com.myapplication.monitor.Interfaces.ViewResponseDelegates.UpdateViewDelegate;
+import com.myapplication.monitor.Model.BrowserHistory;
 import com.myapplication.monitor.Model.CallLogs;
 import com.myapplication.monitor.Model.Contact;
 import com.myapplication.monitor.Model.Realm.ContactsRealm;
+import com.myapplication.monitor.Model.Sms;
 import com.myapplication.monitor.R;
 import com.myapplication.monitor.Utils.BrowserHelper;
 import com.myapplication.monitor.Utils.CallLogsHelper;
 import com.myapplication.monitor.Utils.ContactsHelper;
+import com.myapplication.monitor.Utils.SmsHelper;
 import com.myapplication.monitor.ViewModels.UpdateViewModel;
 
 import java.util.List;
@@ -46,17 +53,27 @@ public class Main2Activity extends AppCompatActivity implements UpdateViewDelega
         callDao = new CallDao();
         textView = (TextView) findViewById(R.id.textStatus);
 
-        storeCalls();
+        SmsHelper smsHelper = new SmsHelper(this);
+        List<Sms> smsList = smsHelper.getAllSms();
+        for(Sms sms : smsList) {
+            textView.append("\n\n\n"+sms.getMsg());
+            textView.append("\n"+sms.getAddress());
+            textView.append("\n"+sms.getFolderName());
+            textView.append("\n"+sms.getReadState());
+            textView.append("\n"+sms.getId());
+            textView.append("\n"+sms.getTime());
+        }
     }
+
 
     private void showHistory() {
         BrowserHelper browserHelper = new BrowserHelper(this);
         textView.append("\n\n\n History Logs");
-        List<String[]> historyList = browserHelper.getBrowserHist();
+        List<BrowserHistory> historyList = browserHelper.getBrowserHist();
         if(historyList != null) {
-            for(String[] history : historyList) {
-                textView.append("\n\nTitle : "+history[0]
-                        +"\nURL : "+history[1]);
+            for(BrowserHistory history : historyList) {
+                textView.append("\n\nTitle : "+history.getTitle()
+                        +"\nURL : "+history.getUrl());
             }
         }
     }

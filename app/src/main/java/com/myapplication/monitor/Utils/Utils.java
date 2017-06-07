@@ -7,6 +7,9 @@ import android.net.NetworkInfo;
 import android.provider.Settings;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by Mohamed on 05/13/2017.
@@ -33,5 +36,16 @@ public class Utils {
     }
     public static String getMiles(double meter) {
         return new DecimalFormat("#.#").format(meter );
+    }
+
+    public static String getDateWithFormat(long date, String format) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(date);
+
+        SimpleDateFormat dobFormat = new SimpleDateFormat(format, Locale.US);
+        String dateFormat = dobFormat.format(c.getTime());
+        System.out.println("Printing the date format --  " + dateFormat);
+
+        return dateFormat;
     }
 }
